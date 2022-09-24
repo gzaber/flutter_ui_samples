@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lamp_shop_app_ui/pages/screens.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Container(),
+      home: const HomePage(),
     );
   }
 }
