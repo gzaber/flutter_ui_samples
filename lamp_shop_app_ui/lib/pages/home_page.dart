@@ -34,6 +34,7 @@ class HomePage extends StatelessWidget {
                 return _GridItem(lamp: lamps[index], width: width);
               },
             ),
+            const SizedBox(height: 100),
           ],
         ),
       ),
@@ -58,72 +59,68 @@ class _CustomNavBarState extends State<_CustomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: widget.width * 0.3,
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.white,
-                    Colors.white.withOpacity(0.0),
-                  ],
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                ),
-              ),
-            ),
-          ),
-          BottomNavigationBar(
-            items: [
-              const BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
-              const BottomNavigationBarItem(icon: Icon(Icons.widgets_outlined), label: 'Widgets'),
-              BottomNavigationBarItem(
-                icon: Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFF151D30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 12,
-                        spreadRadius: 2,
-                        offset: Offset(0.0, 8.0),
-                      ),
-                    ],
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Icon(
-                      Icons.search,
-                      size: 25,
-                      color: Colors.white,
+    return Container(
+      height: 100,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.white,
+            Colors.white.withOpacity(0),
+          ],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          stops: const [0.85, 1],
+        ),
+      ),
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: BottomNavigationBar(
+          items: [
+            const BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
+            const BottomNavigationBarItem(icon: Icon(Icons.widgets_outlined), label: 'Widgets'),
+            BottomNavigationBarItem(
+              icon: Container(
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xFF151D30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 12,
+                      spreadRadius: 2,
+                      offset: Offset(0.0, 8.0),
                     ),
+                  ],
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Icon(
+                    Icons.search,
+                    size: 25,
+                    color: Colors.white,
                   ),
                 ),
-                label: 'Search',
               ),
-              const BottomNavigationBarItem(
-                  icon: Icon(Icons.bookmarks_outlined), label: 'Bookmarks'),
-              const BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_cart_outlined), label: 'Cart'),
-            ],
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _selectedIndex,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            selectedItemColor: const Color(0xFF151D30),
-            unselectedItemColor: Colors.grey,
-            iconSize: 35,
-            onTap: (index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
-          ),
-        ],
+              label: 'Search',
+            ),
+            const BottomNavigationBarItem(icon: Icon(Icons.bookmarks_outlined), label: 'Bookmarks'),
+            const BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'Cart'),
+          ],
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          currentIndex: _selectedIndex,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          selectedItemColor: const Color(0xFF151D30),
+          unselectedItemColor: Colors.grey,
+          iconSize: 32,
+          onTap: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+        ),
       ),
     );
   }
@@ -141,6 +138,8 @@ class _GridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final image = NetworkImage(lamp.imageUrl);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -148,11 +147,14 @@ class _GridItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                lamp.imageUrl,
-                width: double.infinity,
-                height: width * 0.45,
-                fit: BoxFit.cover,
+              child: Material(
+                child: Ink.image(
+                  image: image,
+                  width: double.infinity,
+                  height: width * 0.47,
+                  fit: BoxFit.cover,
+                  child: InkWell(onTap: () {}),
+                ),
               ),
             ),
             Positioned(
@@ -176,19 +178,27 @@ class _GridItem extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 15),
-        Text(
-          lamp.name,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: const Color(0xFF444444),
-                fontWeight: FontWeight.bold,
+        FittedBox(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                lamp.name,
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: const Color(0xFF444444),
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
-        ),
-        const SizedBox(height: 5),
-        Text(
-          lamp.price,
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(color: const Color(0xFF444444)),
+              const SizedBox(height: 5),
+              Text(
+                lamp.price,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(color: const Color(0xFF444444)),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -261,47 +271,53 @@ class _Header extends StatelessWidget {
                 ),
               ),
               Positioned(
-                bottom: 20,
+                bottom: 15,
                 left: 20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'The most\nUnique Lights',
-                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                right: 15,
+                child: FittedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'The most\nUnique Lights',
+                            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      'For Daily Living.',
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                          const SizedBox(height: 5),
+                          Text(
+                            'For Daily Living.',
+                            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                bottom: 20,
-                right: 20,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                    ),
-                    child: Text(
-                      'Explore',
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            color: const Color(0xFF444444),
-                            fontWeight: FontWeight.bold,
+                        ],
+                      ),
+                      const SizedBox(width: 10),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: TextButton(
+                          onPressed: () {},
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
                           ),
-                    ),
+                          child: Text(
+                            'Explore',
+                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                  color: const Color(0xFF444444),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
