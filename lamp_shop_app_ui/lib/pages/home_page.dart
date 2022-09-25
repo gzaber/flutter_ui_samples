@@ -19,25 +19,41 @@ class HomePage extends StatelessWidget {
           children: [
             _Header(width: width),
             const _GridViewTitle(),
-            GridView.builder(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.64,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 20,
-              ),
-              itemCount: lamps.length,
-              itemBuilder: (_, index) {
-                return _GridItem(lamp: lamps[index], width: width);
-              },
-            ),
+            _GridView(lamps: lamps, width: width),
             const SizedBox(height: 100),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _GridView extends StatelessWidget {
+  const _GridView({
+    Key? key,
+    required this.lamps,
+    required this.width,
+  }) : super(key: key);
+
+  final List<Lamp> lamps;
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.64,
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 20,
+      ),
+      itemCount: lamps.length,
+      itemBuilder: (_, index) {
+        return _GridViewItem(lamp: lamps[index], width: width);
+      },
     );
   }
 }
@@ -126,8 +142,8 @@ class _CustomNavBarState extends State<_CustomNavBar> {
   }
 }
 
-class _GridItem extends StatelessWidget {
-  const _GridItem({
+class _GridViewItem extends StatelessWidget {
+  const _GridViewItem({
     Key? key,
     required this.lamp,
     required this.width,
