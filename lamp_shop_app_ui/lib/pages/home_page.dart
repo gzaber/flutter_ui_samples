@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:lamp_shop_app_ui/models/models.dart';
+import 'package:lamp_shop_app_ui/pages/pages.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -169,7 +170,11 @@ class _GridViewItem extends StatelessWidget {
                   width: double.infinity,
                   height: width * 0.47,
                   fit: BoxFit.cover,
-                  child: InkWell(onTap: () {}),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context, DetailsPage.route(lamp: lamp));
+                    },
+                  ),
                 ),
               ),
             ),
