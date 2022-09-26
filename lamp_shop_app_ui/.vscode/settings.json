@@ -10,7 +10,7 @@
   },
   "editor.formatOnSave": true,
   "editor.rulers": [
-    100
+    80
   ],
-  "dart.lineLength": 100
+  "dart.lineLength": 80
 }
