@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lamp_shop_app_ui/config/config.dart';
 
 import 'package:lamp_shop_app_ui/models/models.dart';
 import 'package:lamp_shop_app_ui/pages/pages.dart';
@@ -8,22 +9,123 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    AppConfig.init(context: context);
     final lamps = Lamp.lamps;
 
     return Scaffold(
-      bottomNavigationBar: _CustomNavBar(width: width),
+      bottomNavigationBar: const _CustomNavBar(),
       extendBody: true,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _Header(width: width),
+            const _Header(),
             const _GridViewTitle(),
-            _GridView(lamps: lamps, width: width),
-            const SizedBox(height: 100),
+            _GridView(lamps: lamps),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _Header extends StatelessWidget {
+  const _Header({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: AppConfig.dimensions.edgeInsets.header,
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: AppConfig.dimensions.borderRadius.circular30,
+                child: Image.network(
+                  Lamp.headerLampUrl,
+                  width: double.infinity,
+                  height: AppConfig.dimensions.headerImageHeight,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                top: AppConfig.dimensions.scalable(25),
+                left: AppConfig.dimensions.scalable(20),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.light,
+                      size: AppConfig.dimensions.scalable(30),
+                      color: Colors.white,
+                    ),
+                    SizedBox(width: AppConfig.dimensions.scalable(10)),
+                    Text('Moli', style: AppConfig.textStyles.headerTitle),
+                  ],
+                ),
+              ),
+              Positioned(
+                bottom: AppConfig.dimensions.scalable(15),
+                left: AppConfig.dimensions.scalable(20),
+                right: AppConfig.dimensions.scalable(15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'The most\nUnique Lights',
+                          style: AppConfig.textStyles.headerHeadline,
+                        ),
+                        SizedBox(height: AppConfig.dimensions.scalable(5)),
+                        Text(
+                          'For Daily Living.',
+                          style: AppConfig.textStyles.headerBody,
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: AppConfig.dimensions.scalable(10)),
+                    ClipRRect(
+                      borderRadius:
+                          AppConfig.dimensions.borderRadius.circular20,
+                      child: TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          padding:
+                              AppConfig.dimensions.edgeInsets.exploreButton,
+                        ),
+                        child: Text(
+                          'Explore',
+                          style: AppConfig.textStyles.headerButton,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GridViewTitle extends StatelessWidget {
+  const _GridViewTitle({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: AppConfig.dimensions.edgeInsets.gridViewTitle,
+      child: Text(
+        'New Arrivals',
+        style: AppConfig.textStyles.gridViewTitle,
       ),
     );
   }
@@ -33,39 +135,110 @@ class _GridView extends StatelessWidget {
   const _GridView({
     Key? key,
     required this.lamps,
-    required this.width,
   }) : super(key: key);
 
   final List<Lamp> lamps;
-  final double width;
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: const EdgeInsets.only(left: 20, right: 20),
+      padding: AppConfig.dimensions.edgeInsets.gridView,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.64,
-        mainAxisSpacing: 5,
-        crossAxisSpacing: 20,
+        childAspectRatio: AppConfig.dimensions.gridItemAspectRatio,
+        crossAxisSpacing: AppConfig.dimensions.scalable(15),
       ),
       itemCount: lamps.length,
       itemBuilder: (_, index) {
-        return _GridViewItem(lamp: lamps[index], width: width);
+        return _GridViewItem(lamp: lamps[index]);
       },
     );
   }
 }
 
-class _CustomNavBar extends StatefulWidget {
-  const _CustomNavBar({
+class _GridViewItem extends StatelessWidget {
+  const _GridViewItem({
     Key? key,
-    required this.width,
+    required this.lamp,
   }) : super(key: key);
 
-  final double width;
+  final Lamp lamp;
+
+  @override
+  Widget build(BuildContext context) {
+    final image = NetworkImage(lamp.imageUrl);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Stack(
+          children: [
+            ClipRRect(
+              borderRadius: AppConfig.dimensions.borderRadius.circular20,
+              child: Material(
+                child: Ink.image(
+                  image: image,
+                  width: double.infinity,
+                  height: AppConfig.dimensions.inkImageHeight,
+                  fit: BoxFit.cover,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context, DetailsPage.route(lamp: lamp));
+                    },
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: AppConfig.dimensions.scalable(10),
+              right: AppConfig.dimensions.scalable(10),
+              child: Material(
+                color: AppColors.darkNavy,
+                shape: RoundedRectangleBorder(
+                  borderRadius: AppConfig.dimensions.borderRadius.circular30,
+                ),
+                child: InkWell(
+                  onTap: () {},
+                  borderRadius: AppConfig.dimensions.borderRadius.circular30,
+                  child: CircleAvatar(
+                    radius: AppConfig.dimensions.scalable(22),
+                    backgroundColor: Colors.transparent,
+                    child: Icon(
+                      Icons.add,
+                      size: AppConfig.dimensions.scalable(23),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                lamp.name,
+                style: AppConfig.textStyles.gridViewItemName,
+              ),
+              SizedBox(height: AppConfig.dimensions.scalable(5)),
+              Text(
+                lamp.price,
+                style: AppConfig.textStyles.gridViewItemPrice,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _CustomNavBar extends StatefulWidget {
+  const _CustomNavBar({Key? key}) : super(key: key);
 
   @override
   State<_CustomNavBar> createState() => _CustomNavBarState();
@@ -77,7 +250,7 @@ class _CustomNavBarState extends State<_CustomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      height: AppConfig.dimensions.navBarHeight,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -93,13 +266,19 @@ class _CustomNavBarState extends State<_CustomNavBar> {
         alignment: Alignment.bottomCenter,
         child: BottomNavigationBar(
           items: [
-            const BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
-            const BottomNavigationBarItem(icon: Icon(Icons.widgets_outlined), label: 'Widgets'),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined),
+              label: 'Home',
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.widgets_outlined),
+              label: 'Widgets',
+            ),
             BottomNavigationBarItem(
               icon: Container(
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color(0xFF151D30),
+                  color: AppColors.darkNavy,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey,
@@ -109,19 +288,25 @@ class _CustomNavBarState extends State<_CustomNavBar> {
                     ),
                   ],
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(15),
+                child: Padding(
+                  padding: AppConfig.dimensions.edgeInsets.searchIcon,
                   child: Icon(
                     Icons.search,
-                    size: 25,
+                    size: AppConfig.dimensions.scalable(25),
                     color: Colors.white,
                   ),
                 ),
               ),
               label: 'Search',
             ),
-            const BottomNavigationBarItem(icon: Icon(Icons.bookmarks_outlined), label: 'Bookmarks'),
-            const BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'Cart'),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.bookmarks_outlined),
+              label: 'Bookmarks',
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart_outlined),
+              label: 'Cart',
+            ),
           ],
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
@@ -129,222 +314,15 @@ class _CustomNavBarState extends State<_CustomNavBar> {
           currentIndex: _selectedIndex,
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          selectedItemColor: const Color(0xFF151D30),
-          unselectedItemColor: Colors.grey,
-          iconSize: 32,
+          selectedItemColor: AppColors.darkNavy,
+          unselectedItemColor: Colors.grey.shade400,
+          iconSize: AppConfig.dimensions.scalable(30),
           onTap: (index) {
             setState(() {
               _selectedIndex = index;
             });
           },
         ),
-      ),
-    );
-  }
-}
-
-class _GridViewItem extends StatelessWidget {
-  const _GridViewItem({
-    Key? key,
-    required this.lamp,
-    required this.width,
-  }) : super(key: key);
-
-  final Lamp lamp;
-  final double width;
-
-  @override
-  Widget build(BuildContext context) {
-    final image = NetworkImage(lamp.imageUrl);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Material(
-                child: Ink.image(
-                  image: image,
-                  width: double.infinity,
-                  height: width * 0.47,
-                  fit: BoxFit.cover,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(context, DetailsPage.route(lamp: lamp));
-                    },
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 10,
-              right: 10,
-              child: Material(
-                color: const Color(0xFF151D30),
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(30))),
-                child: InkWell(
-                  onTap: () {},
-                  borderRadius: BorderRadius.circular(30),
-                  child: const CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.transparent,
-                    child: Icon(Icons.add),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 15),
-        FittedBox(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                lamp.name,
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      color: const Color(0xFF444444),
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                lamp.price,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: const Color(0xFF444444)),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _GridViewTitle extends StatelessWidget {
-  const _GridViewTitle({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, top: 20, bottom: 30),
-      child: Text(
-        'New Arrivals',
-        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF444444),
-            ),
-      ),
-    );
-  }
-}
-
-class _Header extends StatelessWidget {
-  const _Header({
-    Key? key,
-    required this.width,
-  }) : super(key: key);
-
-  final double width;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Image.network(
-                  Lamp.headerLampUrl,
-                  height: width * 0.72,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                top: 25,
-                left: 20,
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.light,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      'Moli',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall!
-                          .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                bottom: 15,
-                left: 20,
-                right: 15,
-                child: FittedBox(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'The most\nUnique Lights',
-                            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            'For Daily Living.',
-                            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 10),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                          ),
-                          child: Text(
-                            'Explore',
-                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                  color: const Color(0xFF444444),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lamp_shop_app_ui/config/config.dart';
+
 import 'package:lamp_shop_app_ui/pages/pages.dart';
 
 void main() {
@@ -14,15 +16,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Lamp Shop App UI',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.transparent,
           titleTextStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                color: const Color(0xFF444444),
+                color: AppColors.lightBlack,
                 fontWeight: FontWeight.bold,
               ),
           iconTheme: const IconThemeData(
-            color: Color(0xFF444444),
+            color: AppColors.lightBlack,
           ),
           elevation: 0,
         ),
