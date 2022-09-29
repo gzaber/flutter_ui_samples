@@ -9,7 +9,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppConfig.init(context: context);
     final lamps = Lamp.lamps;
 
     return Scaffold(
@@ -35,75 +34,76 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppConfig.dimensions.edgeInsets.header,
+      padding: AppDimensions.edgeInsets.header,
       child: Column(
         children: [
           Stack(
             children: [
               ClipRRect(
-                borderRadius: AppConfig.dimensions.borderRadius.circular30,
+                borderRadius: AppDimensions.borderRadius.circular30,
                 child: Image.network(
                   Lamp.headerLampUrl,
                   width: double.infinity,
-                  height: AppConfig.dimensions.headerImageHeight,
+                  height: AppDimensions.headerImageHeightRatio *
+                      MediaQuery.of(context).size.width,
                   fit: BoxFit.cover,
                 ),
               ),
               Positioned(
-                top: AppConfig.dimensions.scalable(25),
-                left: AppConfig.dimensions.scalable(20),
+                top: 25,
+                left: 20,
                 child: Row(
-                  children: [
+                  children: const [
                     Icon(
                       Icons.light,
-                      size: AppConfig.dimensions.scalable(30),
+                      size: 30,
                       color: Colors.white,
                     ),
-                    SizedBox(width: AppConfig.dimensions.scalable(10)),
-                    Text('Moli', style: AppConfig.textStyles.headerTitle),
+                    SizedBox(width: 10),
+                    Text('Moli', style: AppTextStyles.headerTitle),
                   ],
                 ),
               ),
               Positioned(
-                bottom: AppConfig.dimensions.scalable(15),
-                left: AppConfig.dimensions.scalable(20),
-                right: AppConfig.dimensions.scalable(15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'The most\nUnique Lights',
-                          style: AppConfig.textStyles.headerHeadline,
-                        ),
-                        SizedBox(height: AppConfig.dimensions.scalable(5)),
-                        Text(
-                          'For Daily Living.',
-                          style: AppConfig.textStyles.headerBody,
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: AppConfig.dimensions.scalable(10)),
-                    ClipRRect(
-                      borderRadius:
-                          AppConfig.dimensions.borderRadius.circular20,
-                      child: TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          padding:
-                              AppConfig.dimensions.edgeInsets.exploreButton,
-                        ),
-                        child: Text(
-                          'Explore',
-                          style: AppConfig.textStyles.headerButton,
+                bottom: 15,
+                left: 20,
+                right: 15,
+                child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'The most\nUnique Lights',
+                            style: AppTextStyles.headerHeadline,
+                          ),
+                          Text(
+                            'For Daily Living.',
+                            style: AppTextStyles.headerBody,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 10),
+                      ClipRRect(
+                        borderRadius: AppDimensions.borderRadius.circular20,
+                        child: TextButton(
+                          onPressed: () {},
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            padding: AppDimensions.edgeInsets.exploreButton,
+                          ),
+                          child: const Text(
+                            'Explore',
+                            style: AppTextStyles.headerButton,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -122,10 +122,10 @@ class _GridViewTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppConfig.dimensions.edgeInsets.gridViewTitle,
-      child: Text(
+      padding: AppDimensions.edgeInsets.gridViewTitle,
+      child: const Text(
         'New Arrivals',
-        style: AppConfig.textStyles.gridViewTitle,
+        style: AppTextStyles.gridViewTitle,
       ),
     );
   }
@@ -142,13 +142,13 @@ class _GridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: AppConfig.dimensions.edgeInsets.gridView,
+      padding: AppDimensions.edgeInsets.gridView,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: AppConfig.dimensions.gridItemAspectRatio,
-        crossAxisSpacing: AppConfig.dimensions.scalable(15),
+        childAspectRatio: AppDimensions.gridItemAspectRatio,
+        crossAxisSpacing: 15,
       ),
       itemCount: lamps.length,
       itemBuilder: (_, index) {
@@ -176,12 +176,13 @@ class _GridViewItem extends StatelessWidget {
         Stack(
           children: [
             ClipRRect(
-              borderRadius: AppConfig.dimensions.borderRadius.circular20,
+              borderRadius: AppDimensions.borderRadius.circular20,
               child: Material(
                 child: Ink.image(
                   image: image,
                   width: double.infinity,
-                  height: AppConfig.dimensions.inkImageHeight,
+                  height: AppDimensions.inkImageHeightRatio *
+                      MediaQuery.of(context).size.width,
                   fit: BoxFit.cover,
                   child: InkWell(
                     onTap: () {
@@ -192,22 +193,22 @@ class _GridViewItem extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: AppConfig.dimensions.scalable(10),
-              right: AppConfig.dimensions.scalable(10),
+              bottom: 10,
+              right: 10,
               child: Material(
                 color: AppColors.darkNavy,
                 shape: RoundedRectangleBorder(
-                  borderRadius: AppConfig.dimensions.borderRadius.circular30,
+                  borderRadius: AppDimensions.borderRadius.circular30,
                 ),
                 child: InkWell(
                   onTap: () {},
-                  borderRadius: AppConfig.dimensions.borderRadius.circular30,
-                  child: CircleAvatar(
-                    radius: AppConfig.dimensions.scalable(22),
+                  borderRadius: AppDimensions.borderRadius.circular30,
+                  child: const CircleAvatar(
+                    radius: 22,
                     backgroundColor: Colors.transparent,
                     child: Icon(
                       Icons.add,
-                      size: AppConfig.dimensions.scalable(23),
+                      size: 23,
                     ),
                   ),
                 ),
@@ -216,20 +217,22 @@ class _GridViewItem extends StatelessWidget {
           ],
         ),
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                lamp.name,
-                style: AppConfig.textStyles.gridViewItemName,
-              ),
-              SizedBox(height: AppConfig.dimensions.scalable(5)),
-              Text(
-                lamp.price,
-                style: AppConfig.textStyles.gridViewItemPrice,
-              ),
-            ],
+          child: FittedBox(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  lamp.name,
+                  style: AppTextStyles.gridViewItemName,
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  lamp.price,
+                  style: AppTextStyles.gridViewItemPrice,
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -250,7 +253,7 @@ class _CustomNavBarState extends State<_CustomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: AppConfig.dimensions.navBarHeight,
+      height: AppDimensions.navBarHeight,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -289,10 +292,10 @@ class _CustomNavBarState extends State<_CustomNavBar> {
                   ],
                 ),
                 child: Padding(
-                  padding: AppConfig.dimensions.edgeInsets.searchIcon,
-                  child: Icon(
+                  padding: AppDimensions.edgeInsets.searchIcon,
+                  child: const Icon(
                     Icons.search,
-                    size: AppConfig.dimensions.scalable(25),
+                    size: 25,
                     color: Colors.white,
                   ),
                 ),
@@ -316,7 +319,7 @@ class _CustomNavBarState extends State<_CustomNavBar> {
           showUnselectedLabels: false,
           selectedItemColor: AppColors.darkNavy,
           unselectedItemColor: Colors.grey.shade400,
-          iconSize: AppConfig.dimensions.scalable(30),
+          iconSize: 30,
           onTap: (index) {
             setState(() {
               _selectedIndex = index;
