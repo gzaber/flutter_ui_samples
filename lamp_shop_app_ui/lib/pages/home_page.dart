@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lamp_shop_app_ui/config/config.dart';
 
+import 'package:lamp_shop_app_ui/config/config.dart';
 import 'package:lamp_shop_app_ui/models/models.dart';
 import 'package:lamp_shop_app_ui/pages/pages.dart';
 
@@ -10,6 +10,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lamps = Lamp.lamps;
+    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       bottomNavigationBar: const _CustomNavBar(),
@@ -18,9 +19,9 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const _Header(),
+            _Header(width: width),
             const _GridViewTitle(),
-            _GridView(lamps: lamps),
+            _GridView(lamps: lamps, width: width),
           ],
         ),
       ),
@@ -29,12 +30,17 @@ class HomePage extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({Key? key}) : super(key: key);
+  const _Header({
+    Key? key,
+    required this.width,
+  }) : super(key: key);
+
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppDimensions.edgeInsets.header,
+      padding: AppDimensions.edgeInsets.homeHeader,
       child: Column(
         children: [
           Stack(
@@ -43,67 +49,66 @@ class _Header extends StatelessWidget {
                 borderRadius: AppDimensions.borderRadius.circular30,
                 child: Image.network(
                   Lamp.headerLampUrl,
-                  width: double.infinity,
-                  height: AppDimensions.headerImageHeightRatio *
-                      MediaQuery.of(context).size.width,
+                  width: width,
+                  height: AppDimensions.homeHeaderImageRatio * width,
                   fit: BoxFit.cover,
                 ),
               ),
               Positioned(
-                top: 25,
+                top: 20,
                 left: 20,
                 child: Row(
                   children: const [
                     Icon(
                       Icons.light,
-                      size: 30,
+                      size: 25,
                       color: Colors.white,
                     ),
                     SizedBox(width: 10),
-                    Text('Moli', style: AppTextStyles.headerTitle),
+                    Text('Moli', style: AppTextStyles.homeHeaderTitle),
                   ],
                 ),
               ),
               Positioned(
                 bottom: 15,
-                left: 20,
+                left: 15,
                 right: 15,
-                child: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Column(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: const [
                           Text(
-                            'The most\nUnique Lights',
-                            style: AppTextStyles.headerHeadline,
+                            'The Most\nUnique Lights',
+                            style: AppTextStyles.homeHeaderHeadline,
                           ),
+                          SizedBox(height: 5),
                           Text(
                             'For Daily Living.',
-                            style: AppTextStyles.headerBody,
+                            style: AppTextStyles.homeHeaderBody,
                           ),
                         ],
                       ),
-                      const SizedBox(width: 10),
-                      ClipRRect(
-                        borderRadius: AppDimensions.borderRadius.circular20,
-                        child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            padding: AppDimensions.edgeInsets.exploreButton,
-                          ),
-                          child: const Text(
-                            'Explore',
-                            style: AppTextStyles.headerButton,
-                          ),
+                    ),
+                    const SizedBox(width: 10),
+                    ClipRRect(
+                      borderRadius: AppDimensions.borderRadius.circular15,
+                      child: TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          padding: AppDimensions.edgeInsets.homeExploreButton,
+                        ),
+                        child: const Text(
+                          'Explore',
+                          style: AppTextStyles.homeHeaderButton,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -122,10 +127,10 @@ class _GridViewTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppDimensions.edgeInsets.gridViewTitle,
+      padding: AppDimensions.edgeInsets.homeGridViewTitle,
       child: const Text(
         'New Arrivals',
-        style: AppTextStyles.gridViewTitle,
+        style: AppTextStyles.homeGridViewTitle,
       ),
     );
   }
@@ -135,24 +140,26 @@ class _GridView extends StatelessWidget {
   const _GridView({
     Key? key,
     required this.lamps,
+    required this.width,
   }) : super(key: key);
 
   final List<Lamp> lamps;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: AppDimensions.edgeInsets.gridView,
+      padding: AppDimensions.edgeInsets.homeGridView,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: AppDimensions.gridItemAspectRatio,
-        crossAxisSpacing: 15,
+        childAspectRatio: AppDimensions.homeGridItemRatio,
+        crossAxisSpacing: 17,
       ),
       itemCount: lamps.length,
       itemBuilder: (_, index) {
-        return _GridViewItem(lamp: lamps[index]);
+        return _GridViewItem(lamp: lamps[index], width: width);
       },
     );
   }
@@ -162,9 +169,11 @@ class _GridViewItem extends StatelessWidget {
   const _GridViewItem({
     Key? key,
     required this.lamp,
+    required this.width,
   }) : super(key: key);
 
   final Lamp lamp;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -181,8 +190,7 @@ class _GridViewItem extends StatelessWidget {
                 child: Ink.image(
                   image: image,
                   width: double.infinity,
-                  height: AppDimensions.inkImageHeightRatio *
-                      MediaQuery.of(context).size.width,
+                  height: AppDimensions.homeInkImageRatio * width,
                   fit: BoxFit.cover,
                   child: InkWell(
                     onTap: () {
@@ -204,11 +212,12 @@ class _GridViewItem extends StatelessWidget {
                   onTap: () {},
                   borderRadius: AppDimensions.borderRadius.circular30,
                   child: const CircleAvatar(
-                    radius: 22,
+                    radius: 18,
                     backgroundColor: Colors.transparent,
                     child: Icon(
                       Icons.add,
-                      size: 23,
+                      size: 20,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -216,25 +225,24 @@ class _GridViewItem extends StatelessWidget {
             ),
           ],
         ),
-        Expanded(
-          child: FittedBox(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  lamp.name,
-                  style: AppTextStyles.gridViewItemName,
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  lamp.price,
-                  style: AppTextStyles.gridViewItemPrice,
-                ),
-              ],
+        const Spacer(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              lamp.name,
+              softWrap: false,
+              style: AppTextStyles.homeGridViewItemName,
             ),
-          ),
+            const SizedBox(height: 5),
+            Text(
+              lamp.price,
+              style: AppTextStyles.homeGridViewItemPrice,
+            ),
+          ],
         ),
+        const Spacer(),
       ],
     );
   }
@@ -253,49 +261,34 @@ class _CustomNavBarState extends State<_CustomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: AppDimensions.navBarHeight,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.white,
-            Colors.white.withOpacity(0),
-          ],
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,
-          stops: const [0.85, 1],
-        ),
-      ),
+      height: AppDimensions.homeNavBarHeight,
+      decoration: AppBoxDecoration.customNavBar,
       child: Align(
         alignment: Alignment.bottomCenter,
         child: BottomNavigationBar(
           items: [
             const BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
+              icon: Icon(
+                Icons.home_outlined,
+                size: AppDimensions.homeNavBarIconSize,
+              ),
               label: 'Home',
             ),
             const BottomNavigationBarItem(
-              icon: Icon(Icons.widgets_outlined),
+              icon: Icon(
+                Icons.widgets_outlined,
+                size: AppDimensions.homeNavBarIconSize,
+              ),
               label: 'Widgets',
             ),
             BottomNavigationBarItem(
               icon: Container(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.darkNavy,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 12,
-                      spreadRadius: 2,
-                      offset: Offset(0.0, 8.0),
-                    ),
-                  ],
-                ),
+                decoration: AppBoxDecoration.customNavBarItem,
                 child: Padding(
-                  padding: AppDimensions.edgeInsets.searchIcon,
+                  padding: AppDimensions.edgeInsets.homeSearchIcon,
                   child: const Icon(
                     Icons.search,
-                    size: 25,
+                    size: 20,
                     color: Colors.white,
                   ),
                 ),
@@ -303,11 +296,17 @@ class _CustomNavBarState extends State<_CustomNavBar> {
               label: 'Search',
             ),
             const BottomNavigationBarItem(
-              icon: Icon(Icons.bookmarks_outlined),
+              icon: Icon(
+                Icons.bookmarks_outlined,
+                size: AppDimensions.homeNavBarIconSize,
+              ),
               label: 'Bookmarks',
             ),
             const BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart_outlined),
+              icon: Icon(
+                Icons.shopping_cart_outlined,
+                size: AppDimensions.homeNavBarIconSize,
+              ),
               label: 'Cart',
             ),
           ],
