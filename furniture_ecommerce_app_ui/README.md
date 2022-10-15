@@ -1,16 +1,16 @@
 # furniture_ecommerce_app_ui
 
-A new Flutter project.
+## Inspiration
 
-## Getting Started
+- [Dribbble: Furniture e-commerce app](https://dribbble.com/shots/18933116-Furniture-e-commerce-App)
 
-This project is a starting point for a Flutter application.
+## Screenshots
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[<img alt="recording" width="250px" src=".screenshots/recording.gif" />](.screenshots/recording.gif)
+&nbsp;
+[<img alt="home page" width="250px" src=".screenshots/intro_page.png" />](.screenshots/intro_page.png)
+&nbsp;
+[<img alt="home page" width="250px" src=".screenshots/home_page.png" />](.screenshots/home_page.png)
+&nbsp;
+[<img alt="home page" width="250px" src=".screenshots/product_page.png" />](.screenshots/product_page.png)
+&nbsp;
