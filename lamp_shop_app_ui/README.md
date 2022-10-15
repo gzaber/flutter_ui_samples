@@ -6,8 +6,7 @@
 
 ## Screenshots
 
-[<img alt="recording" width="250px" src=".screenshots/recording.gif" />](.screenshots/recording.gif)
-&nbsp;
 [<img alt="home page" width="250px" src=".screenshots/home_page.png" />](.screenshots/home_page.png)
 &nbsp;
-[<img alt="details page" width="250px" src=".screenshots/details_page.png" />](.recording/details_page.png)
+[<img alt="details page" width="250px" src=".screenshots/details_page.png" />](.screenshots/details_page.png)  
+[<img alt="recording" width="250px" src=".screenshots/recording.gif" />](.screenshots/recording.gif)
