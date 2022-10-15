@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:furniture_ecommerce_app_ui/config/config.dart';
 
-import 'package:furniture_ecommerce_app_ui/config/app_colors.dart';
 import 'package:furniture_ecommerce_app_ui/models/models.dart';
 import 'package:furniture_ecommerce_app_ui/pages/pages.dart';
+import 'package:furniture_ecommerce_app_ui/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -18,14 +19,14 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final categories = Category.categories;
-    const products = Product.products;
+    final products = Product.products;
 
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: [AppColors.grey, AppColors.lightGrey],
+          colors: [AppColors.homeStartGradient, AppColors.homeEndGradient],
         ),
       ),
       child: Scaffold(
@@ -75,39 +76,19 @@ class _CustomAppBar extends StatelessWidget {
               children: const [
                 Text(
                   'Modern Furniture',
-                  style: TextStyle(
-                    color: AppColors.green,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.3,
-                    fontSize: 22,
-                  ),
+                  style: AppTextStyles.homeTitleLarge,
                 ),
                 SizedBox(height: 5),
                 Text(
                   'For your home',
-                  style: TextStyle(
-                    color: AppColors.green,
-                    fontSize: 17,
-                  ),
+                  style: AppTextStyles.homeTitleMedium,
                 ),
               ],
             ),
-            Ink(
-              width: 40,
-              height: 40,
-              decoration: const ShapeDecoration(
-                color: Colors.white,
-                shape: CircleBorder(),
-              ),
-              child: IconButton(
-                onPressed: () {},
-                splashRadius: 20,
-                icon: const Icon(
-                  Icons.search,
-                  color: Colors.black,
-                  size: 22,
-                ),
-              ),
+            CustomIconButton(
+              onTap: () {},
+              icon: Icons.search,
+              iconSize: 22,
             ),
           ],
         ),
@@ -223,16 +204,27 @@ class _ProductCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       child: Stack(
                         children: [
+                          Container(
+                            width: 0.38 * size.width,
+                            height: 0.38 * size.width,
+                            color: AppColors.homeImageBackground,
+                          ),
                           Image.network(
                             product.imageUrl,
                             width: 0.38 * size.width,
-                            fit: BoxFit.cover,
+                            height: 0.38 * size.width,
+                            fit: BoxFit.scaleDown,
                           ),
                           Positioned(
                             top: 8,
                             right: 8,
-                            child:
-                                _FavoriteButton(isFavorite: product.isFavorite),
+                            child: FavoriteButton(
+                              isFavorite: product.isFavorite,
+                              iconSize: 14,
+                              radius: 12,
+                              favoriteColor: AppColors.productBlue,
+                              notFavoriteColor: AppColors.green,
+                            ),
                           ),
                         ],
                       ),
@@ -245,20 +237,12 @@ class _ProductCard extends StatelessWidget {
                           const SizedBox(height: 6),
                           Text(
                             product.name,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 0.6,
-                            ),
+                            style: AppTextStyles.homeProductName,
                           ),
                           const SizedBox(height: 6),
                           Text(
                             product.manufacturer,
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: AppTextStyles.productManufacturer,
                           ),
                           const SizedBox(height: 6),
                           Row(
@@ -271,11 +255,7 @@ class _ProductCard extends StatelessWidget {
                               const SizedBox(width: 5),
                               Text(
                                 '(${product.rating})',
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                style: AppTextStyles.homeProductRating,
                               ),
                             ],
                           ),
@@ -285,24 +265,15 @@ class _ProductCard extends StatelessWidget {
                             children: [
                               Text(
                                 '\$${product.price.toStringAsFixed(product.price.truncateToDouble() == product.price ? 0 : 2)}',
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: AppTextStyles.homeProductPrice,
                               ),
-                              Material(
-                                color: AppColors.green,
-                                shape: const CircleBorder(),
-                                child: InkWell(
-                                  onTap: () {},
-                                  customBorder: const CircleBorder(),
-                                  child: const CircleAvatar(
-                                    radius: 17,
-                                    backgroundColor: Colors.transparent,
-                                    child: Icon(Icons.add,
-                                        size: 21, color: Colors.white),
-                                  ),
-                                ),
+                              CustomIconButton(
+                                onTap: () {},
+                                icon: Icons.add,
+                                iconSize: 21,
+                                iconColor: Colors.white,
+                                backgroundColor: AppColors.green,
+                                radius: 17,
                               ),
                             ],
                           ),
@@ -313,53 +284,6 @@ class _ProductCard extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _FavoriteButton extends StatefulWidget {
-  const _FavoriteButton({
-    Key? key,
-    required this.isFavorite,
-  }) : super(key: key);
-
-  final bool isFavorite;
-
-  @override
-  State<_FavoriteButton> createState() => _FavoriteButtonState();
-}
-
-class _FavoriteButtonState extends State<_FavoriteButton> {
-  late bool _isFavorite;
-
-  @override
-  void initState() {
-    _isFavorite = widget.isFavorite;
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      shape: const CircleBorder(),
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            _isFavorite = !_isFavorite;
-          });
-        },
-        customBorder: const CircleBorder(),
-        child: CircleAvatar(
-          radius: 12,
-          backgroundColor: Colors.transparent,
-          child: Icon(
-            _isFavorite ? Icons.favorite : Icons.favorite_outline,
-            size: 14,
-            color: Colors.black,
           ),
         ),
       ),

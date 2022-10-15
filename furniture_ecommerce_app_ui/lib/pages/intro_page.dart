@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:furniture_ecommerce_app_ui/config/config.dart';
+import 'package:furniture_ecommerce_app_ui/models/models.dart';
 import 'package:furniture_ecommerce_app_ui/pages/pages.dart';
 
 class IntroPage extends StatelessWidget {
@@ -37,7 +38,7 @@ class _BackgroundImage extends StatelessWidget {
     return Positioned(
       top: 0,
       child: Image.network(
-        'https://images.unsplash.com/photo-1503602642458-232111445657?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+        Product.introImageUrl,
         width: size.width,
         height: 0.66 * size.height,
         fit: BoxFit.cover,
@@ -47,9 +48,7 @@ class _BackgroundImage extends StatelessWidget {
 }
 
 class _SkipButton extends StatelessWidget {
-  const _SkipButton({
-    Key? key,
-  }) : super(key: key);
+  const _SkipButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -133,9 +132,7 @@ class _Bottom extends StatelessWidget {
 }
 
 class _DotsRow extends StatelessWidget {
-  const _DotsRow({
-    Key? key,
-  }) : super(key: key);
+  const _DotsRow({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -152,9 +149,7 @@ class _DotsRow extends StatelessWidget {
 }
 
 class _CustomElevatedButton extends StatelessWidget {
-  const _CustomElevatedButton({
-    Key? key,
-  }) : super(key: key);
+  const _CustomElevatedButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

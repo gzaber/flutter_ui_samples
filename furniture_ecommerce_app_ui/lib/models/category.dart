@@ -16,5 +16,6 @@ class Category {
     Category(name: 'Bed', icon: Icons.bed),
     Category(name: 'Table', icon: Icons.table_bar_outlined),
     Category(name: 'Lamp', icon: Icons.light),
+    Category(name: 'Wardrobe', icon: Icons.door_sliding_outlined),
   ];
 }
