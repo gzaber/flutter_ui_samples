@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartest_home_app_ui/config/app_colors.dart';
+import 'package:smartest_home_app_ui/config/config.dart';
 import 'package:smartest_home_app_ui/pages/pages.dart';
 
 void main() {
