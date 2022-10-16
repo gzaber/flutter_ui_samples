@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smartest_home_app_ui/config/app_colors.dart';
+import 'package:smartest_home_app_ui/pages/pages.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,8 +12,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Smartest Home App',
-      home: Container(),
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        scaffoldBackgroundColor: AppColors.brown,
+      ),
+      home: const HomePage(),
     );
   }
 }
