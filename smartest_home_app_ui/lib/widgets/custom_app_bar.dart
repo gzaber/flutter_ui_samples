@@ -4,6 +4,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   const CustomAppBar({
     Key? key,
     required this.height,
+    required this.title,
     required this.leadingIcon,
     this.trailingIcon,
     this.leadingOnPressed,
@@ -11,6 +12,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   }) : super(key: key);
 
   final double height;
+  final String title;
   final IconData leadingIcon;
   final IconData? trailingIcon;
   final Function()? leadingOnPressed;
@@ -42,7 +44,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                 icon: Icon(leadingIcon),
               ),
             ),
-            title: const Text('Control Panel'),
+            title: Text(title),
             actions: [
               trailingIcon != null
                   ? Padding(
