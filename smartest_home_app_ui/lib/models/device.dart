@@ -52,6 +52,8 @@ class Device {
         icon = deviceType.icon,
         units = deviceType.units;
 
+  //TODO - delete fields? use extension?
+
   final DeviceType deviceType;
   final String name;
   final IconData icon;
