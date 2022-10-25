@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        scaffoldBackgroundColor: AppColors.brown,
+        scaffoldBackgroundColor: AppColors.brownBackground,
       ),
       home: const HomePage(),
     );
