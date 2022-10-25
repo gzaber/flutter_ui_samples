@@ -29,7 +29,7 @@ extension DeviceDetails on DeviceType {
     }
   }
 
-  String? get units {
+  String? get unit {
     switch (this) {
       case DeviceType.lamp:
         return '%';
@@ -48,16 +48,9 @@ class Device {
     required this.deviceType,
     this.turnedOn = false,
     this.value,
-  })  : name = deviceType.name,
-        icon = deviceType.icon,
-        units = deviceType.units;
-
-  //TODO - delete fields? use extension?
+  });
 
   final DeviceType deviceType;
-  final String name;
-  final IconData icon;
   final bool turnedOn;
   final int? value;
-  final String? units;
 }
