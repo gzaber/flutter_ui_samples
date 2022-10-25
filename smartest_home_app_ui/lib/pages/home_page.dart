@@ -305,7 +305,7 @@ class _SceneItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 17, bottom: 15),
       child: Material(
-        color: isActive ? AppColors.brown : Colors.white,
+        color: isActive ? AppColors.brownButton : Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(20)),
         child: InkWell(
           onTap: onTap,
@@ -315,11 +315,11 @@ class _SceneItem extends StatelessWidget {
             height: 85,
             decoration: isActive
                 ? const BoxDecoration(
-                    color: AppColors.brown,
+                    color: AppColors.brownButton,
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.brown,
+                        color: AppColors.brownButton,
                         spreadRadius: -8,
                         blurRadius: 10,
                         offset: Offset(0, 15),
