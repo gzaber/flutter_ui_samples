@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:smartest_home_app_ui/config/app_colors.dart';
+import 'package:smartest_home_app_ui/config/config.dart';
 import 'package:smartest_home_app_ui/models/models.dart';
 import 'package:smartest_home_app_ui/widgets/widgets.dart';
 
@@ -34,10 +34,7 @@ class RoomPage extends StatelessWidget {
       body: Column(
         children: [
           _Measurements(room: room),
-          const Placeholder(
-            color: Colors.amber,
-            fallbackHeight: 175,
-          ),
+          const _EnergyUsage(),
           CustomExpandedContainer(
             color: AppColors.lightGrey,
             child: Column(
@@ -133,6 +130,136 @@ class _MeasurementItem extends StatelessWidget {
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _EnergyUsage extends StatelessWidget {
+  const _EnergyUsage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 175,
+      padding: const EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.symmetric(horizontal: 25),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Usage today',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.6,
+                ),
+              ),
+              RichText(
+                text: const TextSpan(
+                  text: '25',
+                  style: TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: ' kwH',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 15),
+          RichText(
+            text: const TextSpan(
+              text: '7.5',
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+              ),
+              children: [
+                TextSpan(
+                  text: ' kwH',
+                  style: TextStyle(
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width - 50,
+            height: 50,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                CustomPaint(
+                  painter: CurvePainter(
+                    width: MediaQuery.of(context).size.width - 50,
+                    height: 45,
+                    chartData: [4.0, 0.0, 8.5, 2.0, 5.0, 10],
+                  ),
+                ),
+                Positioned(
+                  top: 10,
+                  left: 160,
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.shade600,
+                          spreadRadius: 2,
+                          blurRadius: 10,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 18,
+                  left: 164,
+                  child: Container(
+                    width: 1,
+                    height: 30,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 5),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ...List.generate(
+                6,
+                (index) => Text(
+                  '${index + 1} pm',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 9,
+                  ),
+                ),
+              ),
+              const Text(''),
+            ],
           ),
         ],
       ),
