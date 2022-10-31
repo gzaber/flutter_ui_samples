@@ -21,7 +21,7 @@ List<Room> roomsList = [
         'https://cdn.pixabay.com/photo/2013/07/12/13/58/couch-147685_960_720.png',
     devices: [
       Device(
-        deviceType: DeviceType.lamp,
+        deviceType: DeviceType.light,
         turnedOn: true,
         value: 80,
       ),
@@ -59,7 +59,7 @@ List<Room> roomsList = [
         'https://cdn.pixabay.com/photo/2019/01/31/19/24/bed-3967757_960_720.png',
     devices: [
       Device(
-        deviceType: DeviceType.lamp,
+        deviceType: DeviceType.light,
         turnedOn: true,
         value: 65,
       ),
@@ -94,7 +94,7 @@ List<Room> roomsList = [
         'https://cdn.pixabay.com/photo/2013/07/13/12/15/cooking-pot-159470_960_720.png',
     devices: [
       Device(
-        deviceType: DeviceType.lamp,
+        deviceType: DeviceType.light,
         turnedOn: true,
         value: 70,
       ),
@@ -125,7 +125,7 @@ List<Room> roomsList = [
         'https://cdn.pixabay.com/photo/2018/05/16/03/50/bathtub-3404827_960_720.png',
     devices: [
       Device(
-        deviceType: DeviceType.lamp,
+        deviceType: DeviceType.light,
       ),
     ],
     measurements: [

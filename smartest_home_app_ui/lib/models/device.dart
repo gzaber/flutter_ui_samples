@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-enum DeviceType { lamp, ac, wifi, smartTV }
+enum DeviceType { light, ac, wifi, smartTV }
 
 extension DeviceDetails on DeviceType {
   String get name {
     switch (this) {
-      case DeviceType.lamp:
-        return 'Lamp';
+      case DeviceType.light:
+        return 'Light';
       case DeviceType.ac:
         return 'AC';
       case DeviceType.wifi:
@@ -18,7 +18,7 @@ extension DeviceDetails on DeviceType {
 
   IconData get icon {
     switch (this) {
-      case DeviceType.lamp:
+      case DeviceType.light:
         return Icons.light;
       case DeviceType.ac:
         return Icons.ac_unit;
@@ -31,7 +31,7 @@ extension DeviceDetails on DeviceType {
 
   String? get unit {
     switch (this) {
-      case DeviceType.lamp:
+      case DeviceType.light:
         return '%';
       case DeviceType.ac:
         return '°C';
