@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:smartest_home_app_ui/config/config.dart';
 import 'package:smartest_home_app_ui/models/models.dart';
+import 'package:smartest_home_app_ui/pages/pages.dart';
 import 'package:smartest_home_app_ui/widgets/widgets.dart';
 
 class RoomPage extends StatelessWidget {
@@ -323,7 +324,11 @@ class _DeviceItemState extends State<_DeviceItem> {
       color: Colors.white,
       borderRadius: BorderRadius.circular(20),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          if (widget.device.deviceType == DeviceType.light) {
+            Navigator.push(context, LightPage.route(device: widget.device));
+          }
+        },
         highlightColor: AppColors.orange,
         onHighlightChanged: (value) {
           setState(() {
