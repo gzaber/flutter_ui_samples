@@ -94,10 +94,7 @@ class _WeatherCondition extends StatelessWidget {
         const Spacer(),
         Text(
           description,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 12,
-          ),
+          style: AppTextStyles.homeWeatherConditionDescription,
         ),
       ],
     );
@@ -123,28 +120,18 @@ class _TemperatureCondition extends StatelessWidget {
           children: [
             Text(
               value.toString(),
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.w500,
-              ),
+              style: AppTextStyles.homeTempConditionValue,
             ),
             const Text(
               '°C',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-              ),
+              style: AppTextStyles.homeTempConditionUnit,
             )
           ],
         ),
         const Spacer(),
         Text(
           description,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 12,
-          ),
+          style: AppTextStyles.homeTempConditionDescription,
         ),
       ],
     );
@@ -217,18 +204,11 @@ class _PowerUsageItem extends StatelessWidget {
                       .toStringAsFixed(
                           value.truncateToDouble() == value ? 0 : 1)
                       .replaceAll('.', ','),
-                  style: const TextStyle(
-                    color: AppColors.darkBrown,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppTextStyles.homePowerUsageValue,
                   children: const [
                     TextSpan(
                       text: ' KwH',
-                      style: TextStyle(
-                        color: AppColors.darkBrown,
-                        fontSize: 13,
-                      ),
+                      style: AppTextStyles.homePowerUsageUnit,
                     )
                   ],
                 ),
@@ -236,10 +216,7 @@ class _PowerUsageItem extends StatelessWidget {
               const SizedBox(height: 5),
               Text(
                 description,
-                style: const TextStyle(
-                  color: AppColors.darkBrown,
-                  fontSize: 10,
-                ),
+                style: AppTextStyles.homePowerUsageDescription,
               ),
             ],
           ),
@@ -414,20 +391,12 @@ class _RoomItem extends StatelessWidget {
                 const SizedBox(height: 5),
                 Text(
                   room.name,
-                  style: const TextStyle(
-                    color: AppColors.darkBrown,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppTextStyles.homeRoomName,
                 ),
                 const SizedBox(height: 10),
                 Text(
                   '${room.devices.length} Device${room.devices.length != 1 ? "s" : ""}',
-                  style: const TextStyle(
-                    color: AppColors.grey,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppTextStyles.homeRoomSummary,
                 ),
               ],
             ),

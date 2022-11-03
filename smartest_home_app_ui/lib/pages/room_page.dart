@@ -108,29 +108,18 @@ class _MeasurementItem extends StatelessWidget {
               ),
               Text(
                 measurement.value.toString(),
-                style: const TextStyle(
-                  color: AppColors.darkBrown,
-                  fontSize: 19,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppTextStyles.roomMeasurementValue,
               ),
               Text(
                 ' ${measurement.measurementType.unit}',
-                style: const TextStyle(
-                  color: AppColors.grey,
-                  fontSize: 14,
-                ),
+                style: AppTextStyles.roomMeasurementUnit,
               ),
             ],
           ),
           const SizedBox(height: 5),
           Text(
             measurement.measurementType.name,
-            style: const TextStyle(
-              color: AppColors.grey,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
+            style: AppTextStyles.roomMeasurementName,
           ),
         ],
       ),
@@ -156,27 +145,16 @@ class _EnergyUsage extends StatelessWidget {
             children: [
               const Text(
                 'Usage today',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.6,
-                ),
+                style: AppTextStyles.roomEnergyUsageTitle,
               ),
               RichText(
                 text: const TextSpan(
                   text: '25',
-                  style: TextStyle(
-                    fontSize: 19,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: AppTextStyles.roomEnergyUsageValue,
                   children: [
                     TextSpan(
                       text: ' kwH',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: AppTextStyles.roomEnergyUsageUnit,
                     ),
                   ],
                 ),
@@ -187,16 +165,11 @@ class _EnergyUsage extends StatelessWidget {
           RichText(
             text: const TextSpan(
               text: '7.5',
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w500,
-              ),
+              style: AppTextStyles.roomEnergyUsageChartValue,
               children: [
                 TextSpan(
                   text: ' kwH',
-                  style: TextStyle(
-                    fontSize: 13,
-                  ),
+                  style: AppTextStyles.roomEnergyUsageChartUnit,
                 ),
               ],
             ),
@@ -253,10 +226,7 @@ class _EnergyUsage extends StatelessWidget {
                 6,
                 (index) => Text(
                   '${index + 1} pm',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 9,
-                  ),
+                  style: AppTextStyles.roomEnergyUsageChartSegment,
                 ),
               ),
               const Text(''),
@@ -420,11 +390,7 @@ class _TurnOffButton extends StatelessWidget {
           child: const Center(
             child: Text(
               'Turn off all devices',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              style: AppTextStyles.roomTurnOffButton,
             ),
           ),
         ),

@@ -37,7 +37,6 @@ class LightPage extends StatelessWidget {
             right: -size.height * 0.15,
             child: Image.network(
               'https://cdn.pixabay.com/photo/2022/07/18/17/44/lamp-7330478_960_720.png',
-              //  width: 0.4 * size.width,
               height: size.height * 0.45,
               fit: BoxFit.cover,
             ),
@@ -46,7 +45,7 @@ class LightPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 25),
+                padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -61,6 +60,8 @@ class LightPage extends StatelessWidget {
                     _LightValue(device: device),
                     const SizedBox(height: 97),
                     const _Header(title: 'Intensity'),
+                    const SizedBox(height: 20),
+                    _CustomSlider(size: size),
                   ],
                 ),
               ),
@@ -69,7 +70,12 @@ class LightPage extends StatelessWidget {
                 color: AppColors.lightGrey,
                 child: Column(
                   children: const [
-                    CustomHeader(title: 'Schedule'),
+                    CustomHeader(title: 'Schedule', paddingBottom: 0),
+                    _Schedule(),
+                    CustomExpandedContainer(
+                      color: Colors.white,
+                      child: _PowerUsage(),
+                    ),
                   ],
                 ),
               ),
@@ -93,11 +99,7 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 17,
-        fontWeight: FontWeight.bold,
-      ),
+      style: AppTextStyles.lightHeader,
     );
   }
 }
@@ -168,22 +170,271 @@ class _LightValue extends StatelessWidget {
       children: [
         Text(
           '${device.value}${device.deviceType.unit}',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 38,
-            fontWeight: FontWeight.w500,
-          ),
+          style: AppTextStyles.lightMeasurementValue,
         ),
         const SizedBox(height: 5),
         const Text(
           'Brightness',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.w300,
-          ),
+          style: AppTextStyles.lightMeasurementDescription,
         ),
       ],
+    );
+  }
+}
+
+class _CustomSlider extends StatelessWidget {
+  const _CustomSlider({
+    Key? key,
+    required this.size,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Icon(
+          Icons.lightbulb_outline,
+          color: Colors.white.withOpacity(0.6),
+          size: 30,
+        ),
+        const SizedBox(width: 5),
+        Stack(
+          children: [
+            SizedBox(
+              width: size.width - 120,
+              height: 35,
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Flexible(
+                        flex: 3,
+                        child: Container(
+                          height: 3,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Flexible(
+                        child: Container(
+                          height: 3,
+                          color: Colors.white.withOpacity(0.3),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ...List.generate(
+                        6,
+                        (index) => Container(
+                          width: 2,
+                          height: 5,
+                          color: Colors.white.withOpacity(0.6),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              right: 55,
+              child: Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade600,
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(width: 5),
+        Icon(
+          Icons.lightbulb,
+          color: Colors.white.withOpacity(0.6),
+          size: 30,
+        ),
+      ],
+    );
+  }
+}
+
+class _Schedule extends StatelessWidget {
+  const _Schedule({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: Row(
+        children: const [
+          _ScheduleHours(
+            preposition: 'From',
+            hour: '6:00',
+            timeOfDay: 'PM',
+          ),
+          SizedBox(width: 20),
+          _ScheduleHours(
+            preposition: 'To',
+            hour: '11:00',
+            timeOfDay: 'PM',
+          ),
+          Spacer(),
+          _CustomIconButton(icon: Icons.delete),
+          _CustomIconButton(icon: Icons.edit),
+        ],
+      ),
+    );
+  }
+}
+
+class _ScheduleHours extends StatelessWidget {
+  const _ScheduleHours({
+    Key? key,
+    required this.preposition,
+    required this.hour,
+    required this.timeOfDay,
+  }) : super(key: key);
+
+  final String preposition;
+  final String hour;
+  final String timeOfDay;
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        text: '$preposition    ',
+        style: AppTextStyles.lightSchedulePreposition,
+        children: [
+          TextSpan(
+            text: hour,
+            style: AppTextStyles.lightScheduleHour,
+          ),
+          TextSpan(
+            text: '  $timeOfDay',
+            style: AppTextStyles.lightScheduleTimeOfDay,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CustomIconButton extends StatelessWidget {
+  const _CustomIconButton({
+    Key? key,
+    required this.icon,
+  }) : super(key: key);
+
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      shape: const CircleBorder(),
+      child: InkWell(
+        onTap: () {},
+        customBorder: const CircleBorder(),
+        child: Padding(
+          padding: const EdgeInsets.all(5),
+          child: Icon(
+            icon,
+            size: 23,
+            color: AppColors.grey,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PowerUsage extends StatelessWidget {
+  const _PowerUsage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: Column(
+        children: const [
+          _StatsRow(
+            description: 'Usage today',
+            value: '0.5',
+            unit: 'kwH',
+          ),
+          _StatsRow(
+            description: 'Usage this month',
+            value: '6',
+            unit: 'kwH',
+          ),
+          _StatsRow(
+            description: 'Total working hrs',
+            value: '125',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatsRow extends StatelessWidget {
+  const _StatsRow({
+    Key? key,
+    required this.description,
+    required this.value,
+    this.unit,
+  }) : super(key: key);
+
+  final String description;
+  final String value;
+  final String? unit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 25),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            description,
+            style: AppTextStyles.lightStatsDescription,
+          ),
+          RichText(
+            text: TextSpan(
+              text: value,
+              style: AppTextStyles.lightStatsValue,
+              children: [
+                TextSpan(
+                  text: ' $unit',
+                  style: AppTextStyles.lightStatsUnit,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
