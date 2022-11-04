@@ -193,16 +193,10 @@ class _EnergyUsage extends StatelessWidget {
                   child: Container(
                     width: 8,
                     height: 8,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.shade600,
-                          spreadRadius: 2,
-                          blurRadius: 10,
-                        ),
-                      ],
+                      boxShadow: [AppBoxShadows.roomEnergyUsageChartThumb],
                     ),
                   ),
                 ),
@@ -372,14 +366,7 @@ class _TurnOffButton extends StatelessWidget {
       height: 60,
       margin: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
       decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.brownButton,
-            spreadRadius: -8,
-            blurRadius: 10,
-            offset: Offset(0, 10),
-          ),
-        ],
+        boxShadow: [AppBoxShadows.roomTurnOffButton],
       ),
       child: Material(
         color: AppColors.brownButton,

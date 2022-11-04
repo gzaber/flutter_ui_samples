@@ -294,14 +294,7 @@ class _SceneItem extends StatelessWidget {
                 ? const BoxDecoration(
                     color: AppColors.brownButton,
                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.brownButton,
-                        spreadRadius: -8,
-                        blurRadius: 10,
-                        offset: Offset(0, 15),
-                      ),
-                    ],
+                    boxShadow: [AppBoxShadows.homeSceneItem],
                   )
                 : null,
             child: Center(

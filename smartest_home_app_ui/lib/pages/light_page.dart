@@ -248,16 +248,10 @@ class _CustomSlider extends StatelessWidget {
               child: Container(
                 width: 20,
                 height: 20,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade600,
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                    ),
-                  ],
+                  boxShadow: [AppBoxShadows.lightCustomSliderThumb],
                 ),
               ),
             ),
