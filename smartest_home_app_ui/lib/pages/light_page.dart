@@ -60,12 +60,12 @@ class LightPage extends StatelessWidget {
                     _LightValue(device: device),
                     const SizedBox(height: 97),
                     const _Header(title: 'Intensity'),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     _CustomSlider(size: size),
                   ],
                 ),
               ),
-              const SizedBox(height: 90),
+              const SizedBox(height: 65),
               CustomExpandedContainer(
                 color: AppColors.lightGrey,
                 child: Column(
@@ -276,7 +276,7 @@ class _Schedule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
+      padding: const EdgeInsets.only(left: 25, right: 25, bottom: 25),
       child: Row(
         children: const [
           _ScheduleHours(
@@ -421,7 +421,7 @@ class _StatsRow extends StatelessWidget {
               style: AppTextStyles.lightStatsValue,
               children: [
                 TextSpan(
-                  text: ' $unit',
+                  text: unit != null ? ' $unit' : '',
                   style: AppTextStyles.lightStatsUnit,
                 ),
               ],

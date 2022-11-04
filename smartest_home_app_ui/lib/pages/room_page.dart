@@ -64,7 +64,7 @@ class _Measurements extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 77,
-      margin: const EdgeInsets.symmetric(horizontal: 25),
+      margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 25),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -135,8 +135,8 @@ class _EnergyUsage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 175,
-      padding: const EdgeInsets.only(top: 30),
+      height: 165,
+      padding: const EdgeInsets.only(top: 20),
       margin: const EdgeInsets.symmetric(horizontal: 25),
       child: Column(
         children: [

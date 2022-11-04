@@ -65,7 +65,7 @@ class AppTextStyles {
   );
   static const roomEnergyUsageValue = TextStyle(
     fontSize: 19,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w700,
   );
   static const roomEnergyUsageUnit = TextStyle(
     fontSize: 14,
