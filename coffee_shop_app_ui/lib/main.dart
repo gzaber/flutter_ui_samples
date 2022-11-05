@@ -1,3 +1,5 @@
+import 'package:coffee_shop_app_ui/config/config.dart';
+import 'package:coffee_shop_app_ui/pages/pages.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,9 +15,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Coffee Shop App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: AppColors.black,
       ),
-      home: Container(),
+      home: const HomePage(),
     );
   }
 }
