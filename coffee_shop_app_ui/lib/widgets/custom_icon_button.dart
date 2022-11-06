@@ -17,12 +17,12 @@ class CustomAppBarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 65,
-      height: 65,
-      padding: const EdgeInsets.all(3),
+      width: 35,
+      height: 35,
+      padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
         color: isTransparent ? Colors.transparent : null,
-        borderRadius: const BorderRadius.all(Radius.circular(22)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
         gradient: !isTransparent
             ? LinearGradient(
                 begin: Alignment.topLeft,
@@ -38,19 +38,19 @@ class CustomAppBarButton extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
           gradient: LinearGradient(
             begin: Alignment.topLeft,
-            end: Alignment.bottomCenter,
+            end: Alignment.bottomRight,
             colors: [
-              Color(0xFF20242C),
+              Color(0xFF262B33),
               Color(0xFF0C0F14),
             ],
           ),
         ),
         child: Icon(
           icon,
-          size: 30,
+          size: 20,
           color: AppColors.grey,
         ),
       ),

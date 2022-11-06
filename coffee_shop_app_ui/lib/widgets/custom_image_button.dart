@@ -13,11 +13,11 @@ class CustomImageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 65,
-      height: 65,
-      padding: const EdgeInsets.all(3),
+      width: 35,
+      height: 35,
+      padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(22)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -31,7 +31,7 @@ class CustomImageButton extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           image: DecorationImage(
             image: NetworkImage(imageUrl),
             fit: BoxFit.cover,
