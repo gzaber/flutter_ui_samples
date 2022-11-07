@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'package:coffee_shop_app_ui/config/app_colors.dart';
@@ -13,27 +15,48 @@ class HomePage extends StatelessWidget {
     final coffees = coffeeList;
 
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
         children: [
-          CustomAppBar(
-            width: size.width,
-            leading: CustomAppBarButton(
-              icon: Icons.apps,
-              onTap: () {},
-            ),
-            trailing: CustomImageButton(
-              imageUrl:
-                  'https://cdn.pixabay.com/photo/2021/06/15/16/11/man-6339003_960_720.jpg',
-              onTap: () {},
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 90),
+                const _Header(),
+                const _Search(),
+                const SizedBox(height: 40),
+                _CoffeeTypes(width: size.width),
+                const SizedBox(height: 18),
+                _Coffees(width: size.width, coffees: coffees),
+                Placeholder(
+                  fallbackWidth: size.width,
+                  fallbackHeight: 400,
+                ),
+              ],
             ),
           ),
-          const _Header(),
-          const _Search(),
-          const SizedBox(height: 40),
-          _CoffeeTypes(width: size.width),
-          const SizedBox(height: 18),
-          _Coffees(width: size.width, coffees: coffees),
+          Positioned(
+            child: CustomAppBar(
+              width: size.width,
+              leading: CustomAppBarButton(
+                icon: Icons.apps,
+                onTap: () {},
+              ),
+              trailing: CustomImageButton(
+                imageUrl:
+                    'https://cdn.pixabay.com/photo/2021/06/15/16/11/man-6339003_960_720.jpg',
+                onTap: () {},
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            child: Container(
+              width: size.width,
+              height: 90,
+              color: Colors.amber,
+            ),
+          ),
         ],
       ),
     );
@@ -181,6 +204,7 @@ class _CoffeeTypeItem extends StatelessWidget {
             color: isActive ? AppColors.orange : AppColors.grey,
             fontSize: 15,
             fontWeight: FontWeight.bold,
+            letterSpacing: 0.4,
             height: 1.3,
           ),
         ),
@@ -232,16 +256,164 @@ class _CoffeeItem extends StatelessWidget {
       margin: const EdgeInsets.only(right: 25),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.amber,
         borderRadius: BorderRadius.circular(20),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF262B33),
+            Color(0xFF0C0F14),
+          ],
+        ),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(
-            coffee.imageUrl,
-            width: 125,
-            height: 125,
-            fit: BoxFit.cover,
+          _CoffeeItemImage(coffee: coffee),
+          _CoffeeItemDetails(coffee: coffee),
+        ],
+      ),
+    );
+  }
+}
+
+class _CoffeeItemImage extends StatelessWidget {
+  const _CoffeeItemImage({
+    Key? key,
+    required this.coffee,
+  }) : super(key: key);
+
+  final Coffee coffee;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          width: 130,
+          height: 130,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
+            image: DecorationImage(
+              image: NetworkImage(coffee.imageUrl),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(15),
+              topRight: Radius.circular(15),
+            ),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(
+                width: 45,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.4),
+                  borderRadius:
+                      const BorderRadius.only(bottomLeft: Radius.circular(15)),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.star,
+                      color: AppColors.orange,
+                      size: 13,
+                    ),
+                    Text(
+                      ' ${coffee.rating}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 9,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _CoffeeItemDetails extends StatelessWidget {
+  const _CoffeeItemDetails({
+    Key? key,
+    required this.coffee,
+  }) : super(key: key);
+
+  final Coffee coffee;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            coffee.type.name,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              letterSpacing: 0.5,
+            ),
+          ),
+          const SizedBox(height: 3),
+          Text(
+            'With ${coffee.mainAddition}',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 9,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+          const SizedBox(height: 7),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RichText(
+                text: TextSpan(
+                  text: '\$',
+                  style: const TextStyle(
+                    color: AppColors.orange,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: ' ${coffee.price}',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+              Material(
+                color: AppColors.orange,
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                child: InkWell(
+                  onTap: () {},
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: const SizedBox(
+                    width: 28,
+                    height: 28,
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 15,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
