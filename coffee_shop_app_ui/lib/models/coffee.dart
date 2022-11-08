@@ -40,7 +40,7 @@ List<Coffee> coffeeList = [
     imageUrl:
         'https://images.unsplash.com/photo-1600056781444-55f3b64235e3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80',
     mainAddition: 'Chocolate',
-    price: 4.5,
+    price: 3.14,
     rating: 4.7,
     reviewers: 5433,
   ),
