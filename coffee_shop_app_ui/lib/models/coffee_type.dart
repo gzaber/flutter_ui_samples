@@ -43,7 +43,7 @@ extension CoffeeDetails on CoffeeType {
       case CoffeeType.cappuccino:
         return [
           Ingredient(name: 'Coffee', icon: Icons.coffee),
-          Ingredient(name: 'Milk', icon: Icons.pin_drop_sharp),
+          Ingredient(name: 'Milk', icon: Icons.water_drop),
         ];
       case CoffeeType.espresso:
         return [];
