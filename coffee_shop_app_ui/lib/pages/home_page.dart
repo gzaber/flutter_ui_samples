@@ -1,10 +1,10 @@
 import 'dart:ui';
 
-import 'package:coffee_shop_app_ui/pages/pages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:coffee_shop_app_ui/config/app_colors.dart';
 import 'package:coffee_shop_app_ui/models/models.dart';
+import 'package:coffee_shop_app_ui/pages/pages.dart';
 import 'package:coffee_shop_app_ui/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,7 +13,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final coffees = coffeeList;
 
     return Scaffold(
       body: Stack(
@@ -30,8 +29,8 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 18),
                 _Coffees(width: size.width, coffees: coffees),
                 const _SpecialHeader(),
-                _Special(width: size.width),
-                const SizedBox(height: 90),
+                _Specials(width: size.width),
+                const SizedBox(height: 100),
               ],
             ),
           ),
@@ -44,7 +43,7 @@ class HomePage extends StatelessWidget {
               ),
               trailing: CustomImageButton(
                 imageUrl:
-                    'https://cdn.pixabay.com/photo/2021/06/15/16/11/man-6339003_960_720.jpg',
+                    'https://images.unsplash.com/photo-1588375252323-31bcac362c42?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
                 onTap: () {},
               ),
             ),
@@ -200,7 +199,7 @@ class _CoffeeTypeItem extends StatelessWidget {
             color: isActive ? AppColors.orange : AppColors.grey,
             fontSize: 15,
             fontWeight: FontWeight.bold,
-            letterSpacing: 0.4,
+            letterSpacing: 0.3,
             height: 1.3,
           ),
         ),
@@ -456,8 +455,8 @@ class _SpecialHeader extends StatelessWidget {
   }
 }
 
-class _Special extends StatelessWidget {
-  const _Special({
+class _Specials extends StatelessWidget {
+  const _Specials({
     Key? key,
     required this.width,
   }) : super(key: key);
@@ -466,10 +465,40 @@ class _Special extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: List.generate(
+        specials.length,
+        (index) => _SpecialItem(
+          width: width,
+          title: specials[index].title,
+          subtitle: specials[index].subtitle,
+          imageUrl: specials[index].imageUrl,
+        ),
+      ),
+    );
+  }
+}
+
+class _SpecialItem extends StatelessWidget {
+  const _SpecialItem({
+    Key? key,
+    required this.width,
+    required this.title,
+    required this.subtitle,
+    required this.imageUrl,
+  }) : super(key: key);
+
+  final double width;
+  final String title;
+  final String subtitle;
+  final String imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: width - 50,
       height: 150,
-      margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+      margin: const EdgeInsets.only(left: 25, right: 25, top: 15),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -484,19 +513,31 @@ class _Special extends StatelessWidget {
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           _ImageContainer(
-            imageUrl:
-                'https://images.unsplash.com/photo-1610632380989-680fe40816c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+            imageUrl: imageUrl,
           ),
-          SizedBox(width: 15),
+          const SizedBox(width: 15),
           Expanded(
-            child: Text(
-              '5 Coffee Beans You Must Try!',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-              ),
+            child: Column(
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
