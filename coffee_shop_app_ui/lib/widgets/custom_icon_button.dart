@@ -8,11 +8,13 @@ class CustomAppBarButton extends StatelessWidget {
     required this.icon,
     required this.onTap,
     this.isTransparent = false,
+    this.color = AppColors.grey,
   }) : super(key: key);
 
   final IconData icon;
   final Function() onTap;
   final bool isTransparent;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,7 @@ class CustomAppBarButton extends StatelessWidget {
           child: Icon(
             icon,
             size: 20,
-            color: AppColors.grey,
+            color: color,
           ),
         ),
       ),
