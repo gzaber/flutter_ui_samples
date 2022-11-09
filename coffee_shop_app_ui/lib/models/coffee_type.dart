@@ -7,7 +7,7 @@ extension CoffeeDetails on CoffeeType {
   String get name {
     switch (this) {
       case CoffeeType.cappuccino:
-        return 'Cappucino';
+        return 'Cappuccino';
       case CoffeeType.espresso:
         return 'Espresso';
       case CoffeeType.latte:
