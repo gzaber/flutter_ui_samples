@@ -76,9 +76,7 @@ class _Header extends StatelessWidget {
 }
 
 class _Search extends StatelessWidget {
-  const _Search({
-    Key? key,
-  }) : super(key: key);
+  const _Search({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -247,14 +245,7 @@ class _CoffeeItem extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF262B33),
-              Color(0xFF0C0F14),
-            ],
-          ),
+          gradient: AppGradients.homeCard,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -476,14 +467,7 @@ class _SpecialItem extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF262B33),
-            Color(0xFF0C0F14),
-          ],
-        ),
+        gradient: AppGradients.homeCard,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
