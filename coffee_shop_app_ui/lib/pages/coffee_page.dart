@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import 'package:coffee_shop_app_ui/config/config.dart';
-import 'package:coffee_shop_app_ui/models/models.dart';
-import 'package:coffee_shop_app_ui/widgets/widgets.dart';
+import '../config/config.dart';
+import '../models/models.dart';
+import '../widgets/widgets.dart';
 
 class CoffeePage extends StatelessWidget {
   const CoffeePage({
@@ -149,20 +149,12 @@ class _CoffeeDetails extends StatelessWidget {
                       children: [
                         Text(
                           coffee.type.name,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: AppTextStyles.coffeeDetailsName,
                         ),
                         const SizedBox(height: 5),
                         Text(
                           'With ${coffee.mainAddition}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w300,
-                          ),
+                          style: AppTextStyles.coffeeDetailsAddition,
                         ),
                       ],
                     ),
@@ -177,18 +169,11 @@ class _CoffeeDetails extends StatelessWidget {
                         RichText(
                           text: TextSpan(
                             text: '${coffee.rating} ',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: AppTextStyles.coffeeRating,
                             children: [
                               TextSpan(
                                 text: '(${coffee.reviewers})',
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                                style: AppTextStyles.coffeeReviewers,
                               ),
                             ],
                           ),
@@ -241,11 +226,7 @@ class _BaseIngredients extends StatelessWidget {
               child: const Center(
                 child: Text(
                   'Medium Roasted',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 9,
-                    fontWeight: FontWeight.w200,
-                  ),
+                  style: AppTextStyles.coffeeBaseIngredients,
                 ),
               ),
             ),
@@ -284,11 +265,7 @@ class _Ingredient extends StatelessWidget {
             const SizedBox(height: 3),
             Text(
               ingredient.name,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 9,
-                fontWeight: FontWeight.w200,
-              ),
+              style: AppTextStyles.coffeeBaseIngredients,
             ),
           ],
         ),
@@ -317,13 +294,7 @@ class _Description extends StatelessWidget {
           RichText(
             text: TextSpan(
               text: coffee.type.description,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 13,
-                fontWeight: FontWeight.w300,
-                letterSpacing: 0.6,
-                height: 1.8,
-              ),
+              style: AppTextStyles.coffeeDescription,
               children: const [
                 TextSpan(
                   text: '... Read More',
@@ -350,12 +321,7 @@ class _TitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 13,
-        letterSpacing: 0.6,
-        fontWeight: FontWeight.w300,
-      ),
+      style: AppTextStyles.coffeeTitleText,
     );
   }
 }
@@ -467,11 +433,7 @@ class _BuyNow extends StatelessWidget {
               RichText(
                 text: TextSpan(
                   text: '\$',
-                  style: const TextStyle(
-                    color: AppColors.orange,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: AppTextStyles.coffeeBuyNowDollarSign,
                   children: [
                     TextSpan(
                       text:
@@ -495,11 +457,7 @@ class _BuyNow extends StatelessWidget {
                 child: Center(
                   child: Text(
                     'Buy Now',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: AppTextStyles.coffeeBuyNowButton,
                   ),
                 ),
               ),

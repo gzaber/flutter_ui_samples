@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import 'package:coffee_shop_app_ui/config/app_colors.dart';
-import 'package:coffee_shop_app_ui/models/models.dart';
-import 'package:coffee_shop_app_ui/pages/pages.dart';
-import 'package:coffee_shop_app_ui/widgets/widgets.dart';
+import '../config/config.dart';
+import '../models/models.dart';
+import '../widgets/widgets.dart';
+import 'pages.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -69,11 +69,7 @@ class _Header extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 25, vertical: 30),
       child: Text(
         'Find the best\ncoffee for you',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 30,
-          fontWeight: FontWeight.w500,
-        ),
+        style: AppTextStyles.homeHeader,
       ),
     );
   }
@@ -102,10 +98,7 @@ class _Search extends StatelessWidget {
             ),
           ),
           labelText: 'Find Your Coffee...',
-          labelStyle: const TextStyle(
-            color: AppColors.grey,
-            fontSize: 11,
-          ),
+          labelStyle: AppTextStyles.homeSearchLabel,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         ),
       ),
@@ -316,10 +309,7 @@ class _CoffeeItemImage extends StatelessWidget {
                     ),
                     Text(
                       ' ${coffee.rating}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 9,
-                      ),
+                      style: AppTextStyles.homeRating,
                     ),
                   ],
                 ),
@@ -373,20 +363,12 @@ class _CoffeeItemDetails extends StatelessWidget {
         children: [
           Text(
             coffee.type.name,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              letterSpacing: 0.5,
-            ),
+            style: AppTextStyles.homeCoffeeItemName,
           ),
           const SizedBox(height: 3),
           Text(
             'With ${coffee.mainAddition}',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 9,
-              fontWeight: FontWeight.w300,
-            ),
+            style: AppTextStyles.homeCoffeeItemAddition,
           ),
           const SizedBox(height: 7),
           Row(
@@ -395,11 +377,7 @@ class _CoffeeItemDetails extends StatelessWidget {
               RichText(
                 text: TextSpan(
                   text: '\$',
-                  style: const TextStyle(
-                    color: AppColors.orange,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: AppTextStyles.homeCoffeeItemDollarSign,
                   children: [
                     TextSpan(
                       text:
@@ -445,11 +423,7 @@ class _SpecialHeader extends StatelessWidget {
       padding: EdgeInsets.only(left: 25, right: 25, top: 33),
       child: Text(
         'Special for you',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 15,
-          fontWeight: FontWeight.w500,
-        ),
+        style: AppTextStyles.homeSpecialHeader,
       ),
     );
   }
@@ -523,19 +497,12 @@ class _SpecialItem extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                  ),
+                  style: AppTextStyles.homeSpecialItemTitle,
                 ),
                 const SizedBox(height: 5),
                 Text(
                   subtitle,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w300,
-                  ),
+                  style: AppTextStyles.homeSpecialItemSubtitle,
                 ),
               ],
             ),
