@@ -1,5 +1,6 @@
-import 'package:coffee_shop_app_ui/models/models.dart';
 import 'package:flutter/material.dart';
+
+import 'models.dart';
 
 enum CoffeeType { cappuccino, espresso, latte, flatWhite, americano, macchiato }
 

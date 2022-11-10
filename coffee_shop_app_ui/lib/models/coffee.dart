@@ -1,4 +1,4 @@
-import 'package:coffee_shop_app_ui/models/models.dart';
+import 'models.dart';
 
 enum CoffeeSize { small, medium, large }
 

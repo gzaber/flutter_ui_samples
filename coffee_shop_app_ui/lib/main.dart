@@ -1,6 +1,7 @@
-import 'package:coffee_shop_app_ui/config/config.dart';
-import 'package:coffee_shop_app_ui/pages/pages.dart';
 import 'package:flutter/material.dart';
+
+import 'config/config.dart';
+import 'pages/pages.dart';
 
 void main() {
   runApp(const MyApp());

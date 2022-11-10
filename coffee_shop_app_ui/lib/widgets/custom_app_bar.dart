@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:coffee_shop_app_ui/config/config.dart';
+import '../config/config.dart';
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({
