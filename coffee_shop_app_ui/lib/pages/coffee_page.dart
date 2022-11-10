@@ -58,9 +58,7 @@ class CoffeePage extends StatelessWidget {
 }
 
 class _FavoriteButton extends StatefulWidget {
-  const _FavoriteButton({
-    Key? key,
-  }) : super(key: key);
+  const _FavoriteButton({Key? key}) : super(key: key);
 
   @override
   State<_FavoriteButton> createState() => _FavoriteButtonState();
@@ -327,9 +325,7 @@ class _TitleText extends StatelessWidget {
 }
 
 class _Size extends StatefulWidget {
-  const _Size({
-    Key? key,
-  }) : super(key: key);
+  const _Size({Key? key}) : super(key: key);
 
   @override
   State<_Size> createState() => _SizeState();
