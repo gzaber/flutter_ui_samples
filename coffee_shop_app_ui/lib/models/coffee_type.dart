@@ -1,5 +1,6 @@
-import 'package:coffee_shop_app_ui/models/models.dart';
 import 'package:flutter/material.dart';
+
+import 'models.dart';
 
 enum CoffeeType { cappuccino, espresso, latte, flatWhite, americano, macchiato }
 
@@ -7,7 +8,7 @@ extension CoffeeDetails on CoffeeType {
   String get name {
     switch (this) {
       case CoffeeType.cappuccino:
-        return 'Cappucino';
+        return 'Cappuccino';
       case CoffeeType.espresso:
         return 'Espresso';
       case CoffeeType.latte:
@@ -43,7 +44,7 @@ extension CoffeeDetails on CoffeeType {
       case CoffeeType.cappuccino:
         return [
           Ingredient(name: 'Coffee', icon: Icons.coffee),
-          Ingredient(name: 'Milk', icon: Icons.pin_drop_sharp),
+          Ingredient(name: 'Milk', icon: Icons.water_drop),
         ];
       case CoffeeType.espresso:
         return [];

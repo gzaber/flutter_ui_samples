@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'config/config.dart';
+import 'pages/pages.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -13,9 +16,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Coffee Shop App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: AppColors.black,
       ),
-      home: Container(),
+      home: const HomePage(),
     );
   }
 }
