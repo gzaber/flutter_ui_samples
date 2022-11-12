@@ -95,11 +95,11 @@ class _CoffeeImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size.width,
+      width: size.width - 30,
       height: 0.57 * size.height,
       margin: const EdgeInsets.only(left: 15, top: 15, right: 15),
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(25)),
+        borderRadius: const BorderRadius.all(Radius.circular(30)),
         image: DecorationImage(
           image: NetworkImage(coffee.imageUrl),
           fit: BoxFit.cover,
