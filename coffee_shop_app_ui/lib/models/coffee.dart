@@ -28,7 +28,7 @@ const coffees = [
     type: CoffeeType.cappuccino,
     size: CoffeeSize.small,
     imageUrl:
-        'https://images.unsplash.com/photo-1512568400610-62da28bc8a13?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+        'https://cdn.pixabay.com/photo/2022/08/04/13/41/cup-7364738_960_720.jpg',
     mainAddition: 'Oat Milk',
     price: 4.2,
     rating: 4.5,
@@ -38,7 +38,7 @@ const coffees = [
     type: CoffeeType.cappuccino,
     size: CoffeeSize.small,
     imageUrl:
-        'https://images.unsplash.com/photo-1600056781444-55f3b64235e3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80',
+        'https://cdn.pixabay.com/photo/2017/08/30/05/50/cappuccino-2695985_960_720.jpg',
     mainAddition: 'Chocolate',
     price: 3.14,
     rating: 4.7,
@@ -48,7 +48,7 @@ const coffees = [
     type: CoffeeType.cappuccino,
     size: CoffeeSize.small,
     imageUrl:
-        'https://images.unsplash.com/photo-1572097662444-003d63fe5884?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80',
+        'https://cdn.pixabay.com/photo/2016/08/03/19/57/coffee-1567613_960_720.jpg',
     mainAddition: 'Cocoa',
     price: 4.1,
     rating: 4.3,
@@ -58,7 +58,7 @@ const coffees = [
     type: CoffeeType.cappuccino,
     size: CoffeeSize.small,
     imageUrl:
-        'https://images.unsplash.com/photo-1556124536-ed4da560eba8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+        'https://cdn.pixabay.com/photo/2020/05/14/22/20/coffee-5171517_960_720.jpg',
     mainAddition: 'Cinnamon',
     price: 4.4,
     rating: 4.8,
