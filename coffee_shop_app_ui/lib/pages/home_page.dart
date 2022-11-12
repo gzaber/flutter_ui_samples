@@ -528,7 +528,7 @@ class _CustomNavBarState extends State<_CustomNavBar> {
           height: 90,
           padding: const EdgeInsets.symmetric(horizontal: 25),
           decoration: BoxDecoration(
-            color: AppColors.black.withOpacity(0.8),
+            color: AppColors.black.withOpacity(0.9),
             borderRadius:
                 const BorderRadius.only(bottomLeft: Radius.circular(15)),
           ),
