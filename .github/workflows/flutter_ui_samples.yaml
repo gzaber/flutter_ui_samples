@@ -1,0 +1,100 @@
+name: flutter_ui_samples
+
+on:
+  pull_request:
+    paths:
+      - "coffe_shop_app_ui/**"
+      - "furniture_ecommerce_app_ui/**"
+      - "lamp_shop_app_ui/**"
+      - "smartest_home_app_ui/**"
+
+jobs:
+  test_samples:
+    strategy:
+      matrix:
+        folder:
+          [
+            "coffe_shop_app_ui"
+            "furniture_ecommerce_app_ui"
+            "lamp_shop_app_ui"
+            "smartest_home_app_ui"
+          ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+
+      - name: Install dependencies
+        working-directory: ${{ matrix.folder }}
+        run: flutter pub get
+
+      - name: Analyze
+        working-directory: ${{ matrix.folder }}
+        run: flutter analyze lib
+
+      - name: Run tests
+        working-directory: ${{ matrix.folder }}
+        run: flutter test --coverage
+
+      - name: Upload coverage to codecov
+        run: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov       
+
+  build_android:
+    needs: [test_samples]
+    strategy:
+      matrix:
+        folder:
+          [
+            "coffe_shop_app_ui"
+            "furniture_ecommerce_app_ui"
+            "lamp_shop_app_ui"
+            "smartest_home_app_ui"
+          ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+
+      - name: Install dependencies
+        working-directory: ${{ matrix.folder }}
+        run: flutter pub get
+
+      - name: Build an APK
+        working-directory: ${{ matrix.folder }}
+        run: flutter build apk
+
+  build_ios:
+    needs: [test_samples]
+    strategy:
+      matrix:
+        folder:
+          [
+            "coffe_shop_app_ui"
+            "furniture_ecommerce_app_ui"
+            "lamp_shop_app_ui"
+            "smartest_home_app_ui"
+          ]
+    runs-on: macos-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+
+      - name: Install dependencies
+        working-directory: ${{ matrix.folder }}
+        run: flutter pub get
+
+      - name: Build for iOS
+        working-directory: ${{ matrix.folder }}
+        run: flutter build ios --release --no-codesign
