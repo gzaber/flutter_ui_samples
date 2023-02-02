@@ -14,11 +14,12 @@ jobs:
       matrix:
         folder:
           [
-            "coffe_shop_app_ui"
-            "furniture_ecommerce_app_ui"
-            "lamp_shop_app_ui"
-            "smartest_home_app_ui"
+            "coffe_shop_app_ui",
+            "furniture_ecommerce_app_ui",
+            "lamp_shop_app_ui",
+            "smartest_home_app_ui",
           ]
+      fail-fast: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
@@ -43,7 +44,7 @@ jobs:
         run: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
-          ./codecov       
+          ./codecov
 
   build_android:
     needs: [test_samples]
@@ -51,10 +52,10 @@ jobs:
       matrix:
         folder:
           [
-            "coffe_shop_app_ui"
-            "furniture_ecommerce_app_ui"
-            "lamp_shop_app_ui"
-            "smartest_home_app_ui"
+            "coffe_shop_app_ui",
+            "furniture_ecommerce_app_ui",
+            "lamp_shop_app_ui",
+            "smartest_home_app_ui",
           ]
     runs-on: ubuntu-latest
     steps:
@@ -78,10 +79,10 @@ jobs:
       matrix:
         folder:
           [
-            "coffe_shop_app_ui"
-            "furniture_ecommerce_app_ui"
-            "lamp_shop_app_ui"
-            "smartest_home_app_ui"
+            "coffe_shop_app_ui",
+            "furniture_ecommerce_app_ui",
+            "lamp_shop_app_ui",
+            "smartest_home_app_ui",
           ]
     runs-on: macos-latest
     steps:
