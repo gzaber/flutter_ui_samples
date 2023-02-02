@@ -49,6 +49,7 @@ class _Header extends StatelessWidget {
                 borderRadius: AppDimensions.borderRadius.circular30,
                 child: Image.network(
                   Lamp.headerLampUrl,
+                  key: const Key('homePageHeaderKey'),
                   width: width,
                   height: AppDimensions.homeHeaderImageRatio * width,
                   fit: BoxFit.cover,
@@ -97,7 +98,7 @@ class _Header extends StatelessWidget {
                     ClipRRect(
                       borderRadius: AppDimensions.borderRadius.circular15,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: null,
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.white,
                           padding: AppDimensions.edgeInsets.homeExploreButton,
@@ -120,9 +121,7 @@ class _Header extends StatelessWidget {
 }
 
 class _GridViewTitle extends StatelessWidget {
-  const _GridViewTitle({
-    Key? key,
-  }) : super(key: key);
+  const _GridViewTitle({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -188,13 +187,16 @@ class _GridViewItem extends StatelessWidget {
               borderRadius: AppDimensions.borderRadius.circular20,
               child: Material(
                 child: Ink.image(
+                  key: Key('homePageGridViewItemKey${lamp.imageUrl}'),
                   image: image,
                   width: double.infinity,
                   height: AppDimensions.homeInkImageRatio * width,
                   fit: BoxFit.cover,
                   child: InkWell(
+                    key: Key('homePageGridViewItemInkWellKey${lamp.imageUrl}'),
                     onTap: () {
-                      Navigator.push(context, DetailsPage.route(lamp: lamp));
+                      Navigator.push<void>(
+                          context, DetailsPage.route(lamp: lamp));
                     },
                   ),
                 ),
@@ -209,7 +211,7 @@ class _GridViewItem extends StatelessWidget {
                   borderRadius: AppDimensions.borderRadius.circular30,
                 ),
                 child: InkWell(
-                  onTap: () {},
+                  onTap: null,
                   borderRadius: AppDimensions.borderRadius.circular30,
                   child: const CircleAvatar(
                     radius: 18,
