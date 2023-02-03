@@ -3,20 +3,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lamp_shop_app_ui/models/models.dart';
 import 'package:lamp_shop_app_ui/pages/pages.dart';
 import 'package:mockingjay/mockingjay.dart';
-import 'package:network_image_mock/network_image_mock.dart';
 
 extension WidgetTesterX on WidgetTester {
   Future<void> pumpApp({MockNavigator? navigator}) {
-    return mockNetworkImagesFor(
-      () => pumpWidget(
-        MaterialApp(
-          home: navigator == null
-              ? const HomePage()
-              : MockNavigatorProvider(
-                  navigator: navigator,
-                  child: const HomePage(),
-                ),
-        ),
+    return pumpWidget(
+      MaterialApp(
+        home: navigator == null
+            ? const HomePage()
+            : MockNavigatorProvider(
+                navigator: navigator,
+                child: const HomePage(),
+              ),
       ),
     );
   }
@@ -33,6 +30,19 @@ void main() {
 
     testWidgets('renders TextButton with text', (tester) async {
       await tester.pumpApp();
+
+      await tester.ensureVisible(
+        find.descendant(
+          of: find.byType(TextButton),
+          matching: find.text('Explore'),
+        ),
+      );
+      await tester.tap(
+        find.descendant(
+          of: find.byType(TextButton),
+          matching: find.text('Explore'),
+        ),
+      );
 
       expect(
         find.descendant(
@@ -54,24 +64,39 @@ void main() {
       expect(find.text('New Arrivals'), findsOneWidget);
     });
 
-    testWidgets('renders header image', (tester) async {
+    testWidgets('renders header background', (tester) async {
       await tester.pumpApp();
 
       expect(
-        find.byKey(const Key('homePageHeaderKey')),
+        find.byKey(const Key('homePageHeaderBackgroundKey')),
         findsOneWidget,
       );
     });
 
-    testWidgets('renders ink images', (tester) async {
+    testWidgets('renders grid view item background', (tester) async {
       await tester.pumpApp();
 
       for (final lamp in Lamp.lamps) {
         expect(
-          find.byKey(Key('homePageGridViewItemKey${lamp.imageUrl}')),
+          find.byKey(Key('homePageGridViewItemBackgroundKey${lamp.imageUrl}')),
           findsOneWidget,
         );
       }
+    });
+
+    testWidgets('add item button can be tapped', (tester) async {
+      await tester.pumpApp();
+
+      await tester.ensureVisible(
+        find.byKey(
+          Key('homePageGridViewItemAddKey${Lamp.lamps.first.imageUrl}'),
+        ),
+      );
+      await tester.tap(
+        find.byKey(
+          Key('homePageGridViewItemAddKey${Lamp.lamps.first.imageUrl}'),
+        ),
+      );
     });
 
     testWidgets('renders BottomNavigationBar with icons', (tester) async {
@@ -110,22 +135,43 @@ void main() {
       );
     });
 
-    // testWidgets('navigates to DetailsPage when item image is tapped',
-    //     (tester) async {
-    //   final navigator = MockNavigator();
-    //   when(() => navigator.push<void>(any())).thenAnswer((_) async {});
+    testWidgets('navigation icon can be tapped', (tester) async {
+      await tester.pumpApp();
 
-    //   await tester.pumpApp(navigator: navigator);
-    //   await tester.tap(
-    //     find.byKey(
-    //       Key('homePageGridViewItemInkWellKey${Lamp.lamps.last.imageUrl}'),
-    //     ),
-    //   );
+      await tester.tap(find.byIcon(Icons.home_outlined));
+    });
 
-    //   verify(
-    //     () => navigator.push<void>(
-    //         any(that: isRoute<void>(whereName: equals('/details')))),
-    //   ).called(1);
-    // });
+    testWidgets('renders error widget when loading image failed',
+        (tester) async {
+      await tester.pumpApp();
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(const Key('homePageHeaderError')), findsOneWidget);
+    });
+
+    testWidgets('navigates to DetailsPage when item image is tapped',
+        (tester) async {
+      final navigator = MockNavigator();
+      when(() => navigator.push<void>(any())).thenAnswer((_) async {});
+
+      await tester.pumpApp(navigator: navigator);
+      await tester.pump();
+
+      await tester.ensureVisible(
+        find.byKey(
+          Key('homePageGridViewItemInkWellKey${Lamp.lamps.first.imageUrl}'),
+        ),
+      );
+      await tester.tap(
+        find.byKey(
+          Key('homePageGridViewItemInkWellKey${Lamp.lamps.first.imageUrl}'),
+        ),
+      );
+
+      verify(
+        () => navigator.push<void>(
+            any(that: isRoute<void>(whereName: equals('/details')))),
+      ).called(1);
+    });
   });
 }

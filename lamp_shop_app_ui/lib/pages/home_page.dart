@@ -48,11 +48,29 @@ class _Header extends StatelessWidget {
               ClipRRect(
                 borderRadius: AppDimensions.borderRadius.circular30,
                 child: Image.network(
-                  Lamp.headerLampUrl,
-                  key: const Key('homePageHeaderKey'),
+                  'Lamp.headerLampUrl',
+                  key: const Key('homePageHeaderBackgroundKey'),
                   width: width,
                   height: AppDimensions.homeHeaderImageRatio * width,
                   fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return SizedBox(
+                        key: const Key('homePageHeaderLoading'),
+                        width: width,
+                        height: AppDimensions.homeHeaderImageRatio * width,
+                        child:
+                            const Center(child: CircularProgressIndicator()));
+                  },
+                  errorBuilder: (_, __, ___) {
+                    return Container(
+                      key: const Key('homePageHeaderError'),
+                      color: Colors.red,
+                      width: width,
+                      height: AppDimensions.homeHeaderImageRatio * width,
+                      child: const Center(child: Icon(Icons.error)),
+                    );
+                  },
                 ),
               ),
               Positioned(
@@ -98,7 +116,7 @@ class _Header extends StatelessWidget {
                     ClipRRect(
                       borderRadius: AppDimensions.borderRadius.circular15,
                       child: TextButton(
-                        onPressed: null,
+                        onPressed: () {},
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.white,
                           padding: AppDimensions.edgeInsets.homeExploreButton,
@@ -176,56 +194,75 @@ class _GridViewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final image = NetworkImage(lamp.imageUrl);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Stack(
-          children: [
-            ClipRRect(
-              borderRadius: AppDimensions.borderRadius.circular20,
-              child: Material(
-                child: Ink.image(
-                  key: Key('homePageGridViewItemKey${lamp.imageUrl}'),
-                  image: image,
-                  width: double.infinity,
-                  height: AppDimensions.homeInkImageRatio * width,
-                  fit: BoxFit.cover,
-                  child: InkWell(
-                    key: Key('homePageGridViewItemInkWellKey${lamp.imageUrl}'),
-                    onTap: () {
-                      Navigator.push<void>(
-                          context, DetailsPage.route(lamp: lamp));
-                    },
+        ClipRRect(
+          borderRadius: AppDimensions.borderRadius.circular20,
+          child: Stack(
+            children: [
+              Image.network(
+                lamp.imageUrl,
+                key: Key('homePageGridViewItemBackgroundKey${lamp.imageUrl}'),
+                width: width / 2,
+                height: AppDimensions.homeInkImageRatio * width,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return SizedBox(
+                      width: width / 2,
+                      height: AppDimensions.homeInkImageRatio * width,
+                      child: const Center(child: CircularProgressIndicator()));
+                },
+                errorBuilder: (_, __, ___) {
+                  return Container(
+                    color: Colors.red,
+                    width: width / 2,
+                    height: AppDimensions.homeInkImageRatio * width,
+                    child: const Center(child: Icon(Icons.error)),
+                  );
+                },
+              ),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  key: Key('homePageGridViewItemInkWellKey${lamp.imageUrl}'),
+                  onTap: () {
+                    Navigator.push<void>(
+                        context, DetailsPage.route(lamp: lamp));
+                  },
+                  child: SizedBox(
+                    width: width / 2,
+                    height: AppDimensions.homeInkImageRatio * width,
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: 10,
-              right: 10,
-              child: Material(
-                color: AppColors.darkNavy,
-                shape: RoundedRectangleBorder(
-                  borderRadius: AppDimensions.borderRadius.circular30,
-                ),
-                child: InkWell(
-                  onTap: null,
-                  borderRadius: AppDimensions.borderRadius.circular30,
-                  child: const CircleAvatar(
-                    radius: 18,
-                    backgroundColor: Colors.transparent,
-                    child: Icon(
-                      Icons.add,
-                      size: 20,
-                      color: Colors.white,
+              Positioned(
+                bottom: 10,
+                right: 10,
+                child: Material(
+                  color: AppColors.darkNavy,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: AppDimensions.borderRadius.circular30,
+                  ),
+                  child: InkWell(
+                    onTap: () {},
+                    borderRadius: AppDimensions.borderRadius.circular30,
+                    child: CircleAvatar(
+                      key: Key('homePageGridViewItemAddKey${lamp.imageUrl}'),
+                      radius: 18,
+                      backgroundColor: Colors.transparent,
+                      child: const Icon(
+                        Icons.add,
+                        size: 20,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         const Spacer(),
         Column(
