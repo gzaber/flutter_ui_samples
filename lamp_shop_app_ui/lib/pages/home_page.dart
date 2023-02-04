@@ -48,20 +48,10 @@ class _Header extends StatelessWidget {
               ClipRRect(
                 borderRadius: AppDimensions.borderRadius.circular30,
                 child: Image.network(
-                  'Lamp.headerLampUrl',
-                  key: const Key('homePageHeaderBackgroundKey'),
+                  Lamp.headerLampUrl,
                   width: width,
                   height: AppDimensions.homeHeaderImageRatio * width,
                   fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return SizedBox(
-                        key: const Key('homePageHeaderLoading'),
-                        width: width,
-                        height: AppDimensions.homeHeaderImageRatio * width,
-                        child:
-                            const Center(child: CircularProgressIndicator()));
-                  },
                   errorBuilder: (_, __, ___) {
                     return Container(
                       key: const Key('homePageHeaderError'),
@@ -116,6 +106,7 @@ class _Header extends StatelessWidget {
                     ClipRRect(
                       borderRadius: AppDimensions.borderRadius.circular15,
                       child: TextButton(
+                        key: const Key('homePageHeaderTextButtonKey'),
                         onPressed: () {},
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.white,
@@ -203,17 +194,9 @@ class _GridViewItem extends StatelessWidget {
             children: [
               Image.network(
                 lamp.imageUrl,
-                key: Key('homePageGridViewItemBackgroundKey${lamp.imageUrl}'),
                 width: width / 2,
                 height: AppDimensions.homeInkImageRatio * width,
                 fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return SizedBox(
-                      width: width / 2,
-                      height: AppDimensions.homeInkImageRatio * width,
-                      child: const Center(child: CircularProgressIndicator()));
-                },
                 errorBuilder: (_, __, ___) {
                   return Container(
                     color: Colors.red,
@@ -224,9 +207,9 @@ class _GridViewItem extends StatelessWidget {
                 },
               ),
               Material(
+                key: Key('homePageGridViewItem${lamp.imageUrl}'),
                 color: Colors.transparent,
                 child: InkWell(
-                  key: Key('homePageGridViewItemInkWellKey${lamp.imageUrl}'),
                   onTap: () {
                     Navigator.push<void>(
                         context, DetailsPage.route(lamp: lamp));
@@ -240,25 +223,8 @@ class _GridViewItem extends StatelessWidget {
               Positioned(
                 bottom: 10,
                 right: 10,
-                child: Material(
-                  color: AppColors.darkNavy,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: AppDimensions.borderRadius.circular30,
-                  ),
-                  child: InkWell(
-                    onTap: () {},
-                    borderRadius: AppDimensions.borderRadius.circular30,
-                    child: CircleAvatar(
-                      key: Key('homePageGridViewItemAddKey${lamp.imageUrl}'),
-                      radius: 18,
-                      backgroundColor: Colors.transparent,
-                      child: const Icon(
-                        Icons.add,
-                        size: 20,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                child: _AddItemButton(
+                  key: Key('homePageGridViewItemAddKey${lamp.imageUrl}'),
                 ),
               ),
             ],
@@ -283,6 +249,33 @@ class _GridViewItem extends StatelessWidget {
         ),
         const Spacer(),
       ],
+    );
+  }
+}
+
+class _AddItemButton extends StatelessWidget {
+  const _AddItemButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.darkNavy,
+      shape: RoundedRectangleBorder(
+        borderRadius: AppDimensions.borderRadius.circular30,
+      ),
+      child: InkWell(
+        onTap: () {},
+        borderRadius: AppDimensions.borderRadius.circular30,
+        child: const CircleAvatar(
+          radius: 18,
+          backgroundColor: Colors.transparent,
+          child: Icon(
+            Icons.add,
+            size: 20,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 }
