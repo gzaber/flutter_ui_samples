@@ -8,19 +8,6 @@ import '../helpers.dart';
 
 void main() {
   group('HomePage', () {
-    // testWidgets('renders loading widget when loading image', (tester) async {
-    //   await tester.pumpApp(const HomePage());
-    //   await tester.pump(Duration(milliseconds: 1000));
-
-    //   await tester.ensureVisible(find.byType(CircularProgressIndicator));
-
-    //   //expect(find.byKey(const Key('homePageHeaderLoading')), findsOneWidget);
-
-    //   expectLater(find.byType(CircularProgressIndicator), findsOneWidget);
-
-    //   // expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    // });
-
     testWidgets('renders error widget when loading image failed',
         (tester) async {
       await tester.pumpApp(const HomePage());
