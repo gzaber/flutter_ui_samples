@@ -42,6 +42,13 @@ class _BackgroundImage extends StatelessWidget {
         width: size.width,
         height: 0.66 * size.height,
         fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) {
+          return SizedBox(
+            width: size.width,
+            height: 0.66 * size.height,
+            child: const Icon(Icons.error),
+          );
+        },
       ),
     );
   }
@@ -56,9 +63,10 @@ class _SkipButton extends StatelessWidget {
       top: 30,
       right: 10,
       child: TextButton(
+        key: const Key('introPageSkipButtonKey'),
         style: TextButton.styleFrom(padding: const EdgeInsets.all(10)),
         onPressed: () {
-          Navigator.push(context, HomePage.route());
+          Navigator.push<void>(context, HomePage.route());
         },
         child: const Text('Skip', style: AppTextStyles.introSkipButton),
       ),
@@ -124,7 +132,7 @@ class _Bottom extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: const [
           _DotsRow(),
-          _CustomElevatedButton(),
+          _NextButton(),
         ],
       ),
     );
@@ -148,12 +156,13 @@ class _DotsRow extends StatelessWidget {
   }
 }
 
-class _CustomElevatedButton extends StatelessWidget {
-  const _CustomElevatedButton({Key? key}) : super(key: key);
+class _NextButton extends StatelessWidget {
+  const _NextButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      key: const Key('introPageNextButtonKey'),
       onPressed: () {},
       style: ElevatedButton.styleFrom(
         elevation: 0,
@@ -209,8 +218,11 @@ class _CustomClipper extends CustomClipper<Path> {
     return path;
   }
 
+// coverage:ignore-start
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
     return true;
   }
+  // coverage:ignore-end
+
 }
