@@ -104,6 +104,12 @@ class _ProductImage extends StatelessWidget {
         child: Image.network(
           product.imageUrl,
           fit: BoxFit.scaleDown,
+          errorBuilder: (_, __, ___) {
+            return const Icon(
+              Icons.error,
+              key: Key('productPageProductImageErrorKey'),
+            );
+          },
         ),
       ),
     );
@@ -128,7 +134,7 @@ class _CustomAppBar extends StatelessWidget {
         children: [
           CustomIconButton(
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pop<void>(context);
             },
             radius: 20,
             icon: Icons.arrow_back,
@@ -136,6 +142,7 @@ class _CustomAppBar extends StatelessWidget {
           ),
           const Spacer(),
           FavoriteButton(
+            key: const Key('productPageFavoriteButtonKey'),
             isFavorite: isFavorite,
             favoriteColor: AppColors.green,
             notFavoriteColor: AppColors.green,
@@ -251,26 +258,43 @@ class _MoreChairList extends StatelessWidget {
       itemBuilder: (_, index) {
         return Row(
           children: [
-            Material(
-              color: AppColors.productImageBackground,
+            ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: InkWell(
-                onTap: () {},
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  width: 0.13 * size.height,
-                  decoration: BoxDecoration(
+              child: Stack(
+                children: [
+                  Container(
+                    width: 0.13 * size.height,
+                    height: 0.13 * size.height,
+                    color: AppColors.productImageBackground,
+                  ),
+                  Image.network(
+                    Product.products
+                        .where((p) => p.id != product.id)
+                        .toList()
+                        .elementAt(index)
+                        .imageUrl,
+                    width: 0.13 * size.height,
+                    fit: BoxFit.scaleDown,
+                    errorBuilder: (_, __, ___) {
+                      return SizedBox(
+                        width: 0.13 * size.height,
+                        height: 0.13 * size.height,
+                        child: const Center(child: Icon(Icons.error)),
+                      );
+                    },
+                  ),
+                  Material(
+                    key: Key('productPageMoreChairListItemKey$index'),
                     color: Colors.transparent,
-                    image: DecorationImage(
-                      image: NetworkImage(Product.products
-                          .where((p) => p.id != product.id)
-                          .toList()
-                          .elementAt(index)
-                          .imageUrl),
-                      fit: BoxFit.scaleDown,
+                    child: InkWell(
+                      onTap: () {},
+                      child: SizedBox(
+                        width: 0.13 * size.height,
+                        height: 0.13 * size.height,
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
             const SizedBox(width: 15),
@@ -329,6 +353,7 @@ class _ColorsBoxState extends State<_ColorsBox> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _ColorItem(
+              key: const Key('productPageFirstColorItemKey'),
               isChecked: _boxColors == BoxColors.first,
               color: AppColors.productBeige,
               onTap: () {
@@ -338,6 +363,7 @@ class _ColorsBoxState extends State<_ColorsBox> {
               },
             ),
             _ColorItem(
+              key: const Key('productPageSecondColorItemKey'),
               isChecked: _boxColors == BoxColors.second,
               color: widget.color,
               onTap: () {
@@ -347,6 +373,7 @@ class _ColorsBoxState extends State<_ColorsBox> {
               },
             ),
             _ColorItem(
+              key: const Key('productPageThirdColorItemKey'),
               isChecked: _boxColors == BoxColors.third,
               color: AppColors.productYellow,
               onTap: () {
@@ -428,6 +455,7 @@ class _AddToCartBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomIconButton(
+                  key: const Key('productPageDecrementButtonKey'),
                   onTap: () {},
                   icon: Icons.remove,
                   iconColor: AppColors.green,
@@ -438,6 +466,7 @@ class _AddToCartBar extends StatelessWidget {
                   style: AppTextStyles.productAmount,
                 ),
                 CustomIconButton(
+                  key: const Key('productPageIncrementButtonKey'),
                   onTap: () {},
                   icon: Icons.add,
                   iconColor: AppColors.green,
@@ -452,6 +481,7 @@ class _AddToCartBar extends StatelessWidget {
               color: AppColors.green,
               borderRadius: BorderRadius.circular(30),
               child: InkWell(
+                key: const Key('productPageAddToCartButtonKey'),
                 onTap: () {},
                 borderRadius: BorderRadius.circular(30),
                 child: Container(

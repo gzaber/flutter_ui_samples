@@ -86,6 +86,7 @@ class _CustomAppBar extends StatelessWidget {
               ],
             ),
             CustomIconButton(
+              key: const Key('homePageSearchButtonKey'),
               onTap: () {},
               icon: Icons.search,
               iconSize: 22,
@@ -135,6 +136,7 @@ class _CategoryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      key: Key('homePageCategoryButtonKey${category.name}'),
       color: category.isChecked ? AppColors.green : Colors.white,
       borderRadius: const BorderRadius.all(Radius.circular(30)),
       child: InkWell(
@@ -181,10 +183,11 @@ class _ProductCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: Material(
+        key: Key('homePageProductCardKey${product.imageUrl}'),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         child: InkWell(
           onTap: () {
-            Navigator.push(context, ProductPage.route(product: product));
+            Navigator.push<void>(context, ProductPage.route(product: product));
           },
           customBorder:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
@@ -214,11 +217,22 @@ class _ProductCard extends StatelessWidget {
                             width: 0.38 * size.width,
                             height: 0.38 * size.width,
                             fit: BoxFit.scaleDown,
+                            errorBuilder: (_, __, ___) {
+                              return SizedBox(
+                                key: Key(
+                                    'homePageImageErrorKey${product.imageUrl}'),
+                                width: 0.38 * size.width,
+                                height: 0.38 * size.width,
+                                child: const Icon(Icons.error),
+                              );
+                            },
                           ),
                           Positioned(
                             top: 8,
                             right: 8,
                             child: FavoriteButton(
+                              key: Key(
+                                  'homePageFavoriteButtonKey${product.imageUrl}'),
                               isFavorite: product.isFavorite,
                               iconSize: 14,
                               radius: 12,
@@ -268,6 +282,8 @@ class _ProductCard extends StatelessWidget {
                                 style: AppTextStyles.homeProductPrice,
                               ),
                               CustomIconButton(
+                                key: Key(
+                                    'homePageAddProductButtonKey${product.imageUrl}'),
                                 onTap: () {},
                                 icon: Icons.add,
                                 iconSize: 21,
