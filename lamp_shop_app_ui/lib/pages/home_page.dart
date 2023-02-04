@@ -49,10 +49,18 @@ class _Header extends StatelessWidget {
                 borderRadius: AppDimensions.borderRadius.circular30,
                 child: Image.network(
                   Lamp.headerLampUrl,
-                  key: const Key('homePageHeaderKey'),
                   width: width,
                   height: AppDimensions.homeHeaderImageRatio * width,
                   fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) {
+                    return Container(
+                      key: const Key('homePageHeaderError'),
+                      color: Colors.red,
+                      width: width,
+                      height: AppDimensions.homeHeaderImageRatio * width,
+                      child: const Center(child: Icon(Icons.error)),
+                    );
+                  },
                 ),
               ),
               Positioned(
@@ -98,7 +106,8 @@ class _Header extends StatelessWidget {
                     ClipRRect(
                       borderRadius: AppDimensions.borderRadius.circular15,
                       child: TextButton(
-                        onPressed: null,
+                        key: const Key('homePageHeaderTextButtonKey'),
+                        onPressed: () {},
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.white,
                           padding: AppDimensions.edgeInsets.homeExploreButton,
@@ -176,56 +185,50 @@ class _GridViewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final image = NetworkImage(lamp.imageUrl);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Stack(
-          children: [
-            ClipRRect(
-              borderRadius: AppDimensions.borderRadius.circular20,
-              child: Material(
-                child: Ink.image(
-                  key: Key('homePageGridViewItemKey${lamp.imageUrl}'),
-                  image: image,
-                  width: double.infinity,
-                  height: AppDimensions.homeInkImageRatio * width,
-                  fit: BoxFit.cover,
-                  child: InkWell(
-                    key: Key('homePageGridViewItemInkWellKey${lamp.imageUrl}'),
-                    onTap: () {
-                      Navigator.push<void>(
-                          context, DetailsPage.route(lamp: lamp));
-                    },
-                  ),
-                ),
+        ClipRRect(
+          borderRadius: AppDimensions.borderRadius.circular20,
+          child: Stack(
+            children: [
+              Image.network(
+                lamp.imageUrl,
+                width: width / 2,
+                height: AppDimensions.homeInkImageRatio * width,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) {
+                  return Container(
+                    color: Colors.red,
+                    width: width / 2,
+                    height: AppDimensions.homeInkImageRatio * width,
+                    child: const Center(child: Icon(Icons.error)),
+                  );
+                },
               ),
-            ),
-            Positioned(
-              bottom: 10,
-              right: 10,
-              child: Material(
-                color: AppColors.darkNavy,
-                shape: RoundedRectangleBorder(
-                  borderRadius: AppDimensions.borderRadius.circular30,
-                ),
+              Material(
+                key: Key('homePageGridViewItem${lamp.imageUrl}'),
+                color: Colors.transparent,
                 child: InkWell(
-                  onTap: null,
-                  borderRadius: AppDimensions.borderRadius.circular30,
-                  child: const CircleAvatar(
-                    radius: 18,
-                    backgroundColor: Colors.transparent,
-                    child: Icon(
-                      Icons.add,
-                      size: 20,
-                      color: Colors.white,
-                    ),
+                  onTap: () {
+                    Navigator.push<void>(
+                        context, DetailsPage.route(lamp: lamp));
+                  },
+                  child: SizedBox(
+                    width: width / 2,
+                    height: AppDimensions.homeInkImageRatio * width,
                   ),
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                bottom: 10,
+                right: 10,
+                child: _AddItemButton(
+                  key: Key('homePageGridViewItemAddKey${lamp.imageUrl}'),
+                ),
+              ),
+            ],
+          ),
         ),
         const Spacer(),
         Column(
@@ -246,6 +249,33 @@ class _GridViewItem extends StatelessWidget {
         ),
         const Spacer(),
       ],
+    );
+  }
+}
+
+class _AddItemButton extends StatelessWidget {
+  const _AddItemButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.darkNavy,
+      shape: RoundedRectangleBorder(
+        borderRadius: AppDimensions.borderRadius.circular30,
+      ),
+      child: InkWell(
+        onTap: () {},
+        borderRadius: AppDimensions.borderRadius.circular30,
+        child: const CircleAvatar(
+          radius: 18,
+          backgroundColor: Colors.transparent,
+          child: Icon(
+            Icons.add,
+            size: 20,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 }

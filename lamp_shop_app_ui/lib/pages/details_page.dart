@@ -30,11 +30,19 @@ class DetailsPage extends StatelessWidget {
           Image.network(
             lamp.imageUrl,
             fit: BoxFit.cover,
+            errorBuilder: (_, __, ___) {
+              return const SizedBox.expand(
+                child: Center(child: Icon(Icons.error)),
+              );
+            },
           ),
           _CustomAppBar(width: width),
           _WhiteFrame(width: width, height: height),
           _Details(width: width, height: height, lamp: lamp),
-          _BuyButton(width: width),
+          _BuyButton(
+            key: const Key('detailsPageBuyButtonKey'),
+            width: width,
+          ),
         ],
       ),
     );
@@ -65,7 +73,7 @@ class _CustomAppBar extends StatelessWidget {
               borderRadius: AppDimensions.borderRadius.circular10,
               child: IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pop<void>(context);
                 },
                 icon: const Icon(
                   Icons.arrow_back,
@@ -85,6 +93,7 @@ class _CustomAppBar extends StatelessWidget {
               color: Colors.transparent,
               borderRadius: AppDimensions.borderRadius.circular10,
               child: IconButton(
+                key: const Key('detailsPageMoreIconButtonKey'),
                 onPressed: () {},
                 icon: const Icon(
                   Icons.more_vert,
@@ -234,9 +243,7 @@ class _DetailsHeader extends StatelessWidget {
 }
 
 class _ColorBar extends StatelessWidget {
-  const _ColorBar({
-    Key? key,
-  }) : super(key: key);
+  const _ColorBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -285,7 +292,7 @@ class _ColorBox extends StatelessWidget {
     Key? key,
     required this.color,
     this.isChecked = false,
-  }) : super(key: key);
+  }) : super(key: key); // coverage:ignore-line
 
   final Color color;
   final bool isChecked;

@@ -3,7 +3,7 @@ name: flutter_ui_samples
 on:
   pull_request:
     paths:
-      - "coffe_shop_app_ui/**"
+      - "coffee_shop_app_ui/**"
       - "furniture_ecommerce_app_ui/**"
       - "lamp_shop_app_ui/**"
       - "smartest_home_app_ui/**"
@@ -14,7 +14,7 @@ jobs:
       matrix:
         folder:
           [
-            "coffe_shop_app_ui",
+            "coffee_shop_app_ui",
             "furniture_ecommerce_app_ui",
             "lamp_shop_app_ui",
             "smartest_home_app_ui",
@@ -52,7 +52,7 @@ jobs:
       matrix:
         folder:
           [
-            "coffe_shop_app_ui",
+            "coffee_shop_app_ui",
             "furniture_ecommerce_app_ui",
             "lamp_shop_app_ui",
             "smartest_home_app_ui",
@@ -79,7 +79,7 @@ jobs:
       matrix:
         folder:
           [
-            "coffe_shop_app_ui",
+            "coffee_shop_app_ui",
             "furniture_ecommerce_app_ui",
             "lamp_shop_app_ui",
             "smartest_home_app_ui",
