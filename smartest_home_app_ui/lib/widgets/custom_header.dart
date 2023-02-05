@@ -8,11 +8,13 @@ class CustomHeader extends StatelessWidget {
     required this.title,
     this.paddingTop = 20,
     this.paddingBottom = 10,
-  }) : super(key: key);
+    this.buttonKey,
+  }) : super(key: key); // coverage:ignore-line
 
   final String title;
   final double paddingTop;
   final double paddingBottom;
+  final Key? buttonKey;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class CustomHeader extends StatelessWidget {
             color: Colors.transparent,
             shape: const CircleBorder(),
             child: InkWell(
+              key: buttonKey,
               onTap: () {},
               customBorder: const CircleBorder(),
               child: const Padding(

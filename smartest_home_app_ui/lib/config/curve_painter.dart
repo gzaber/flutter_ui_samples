@@ -50,6 +50,8 @@ class CurvePainter extends CustomPainter {
     canvas.drawPath(path, paint);
   }
 
+// coverage:ignore-start
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  // coverage:ignore-end
 }

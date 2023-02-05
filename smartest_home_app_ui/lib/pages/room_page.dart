@@ -29,24 +29,31 @@ class RoomPage extends StatelessWidget {
         title: room.name,
         height: 0.1 * size.height,
         leadingIcon: Icons.arrow_back,
-        leadingOnPressed: () => Navigator.pop(context),
+        leadingOnPressed: () => Navigator.pop<void>(context),
         trailingIcon: Icons.token_outlined,
       ),
-      body: Column(
-        children: [
-          _Measurements(room: room),
-          const _EnergyUsage(),
-          CustomExpandedContainer(
-            color: AppColors.lightGrey,
-            child: Column(
-              children: [
-                const CustomHeader(title: 'Devices'),
-                _Devices(room: room),
-                const _TurnOffButton(),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _Measurements(room: room),
+            const _EnergyUsage(),
+            UpperRoundedContainer(
+              aboveCornersColor: AppColors.brownBackground,
+              color: AppColors.lightGrey,
+              child: Column(
+                children: [
+                  const CustomHeader(
+                    title: 'Devices',
+                    buttonKey: Key('roomPageDevicesHeaderButtonKey'),
+                  ),
+                  _Devices(room: room),
+                  const _TurnOffButton(key: Key('roomPageTurnOffButton')),
+                  const SizedBox(height: 35),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -128,9 +135,7 @@ class _MeasurementItem extends StatelessWidget {
 }
 
 class _EnergyUsage extends StatelessWidget {
-  const _EnergyUsage({
-    Key? key,
-  }) : super(key: key);
+  const _EnergyUsage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -253,7 +258,10 @@ class _Devices extends StatelessWidget {
         crossAxisSpacing: 15,
         children: [
           ...room.devices.map(
-            (device) => _DeviceItem(device: device),
+            (device) => _DeviceItem(
+              key: Key('roomPageDeviceItemKey${device.deviceType}'),
+              device: device,
+            ),
           ),
         ],
       ),
@@ -290,7 +298,8 @@ class _DeviceItemState extends State<_DeviceItem> {
       child: InkWell(
         onTap: () {
           if (widget.device.deviceType == DeviceType.light) {
-            Navigator.push(context, LightPage.route(device: widget.device));
+            Navigator.push<void>(
+                context, LightPage.route(device: widget.device));
           }
         },
         highlightColor: AppColors.orange,
@@ -356,9 +365,7 @@ class _DeviceItemState extends State<_DeviceItem> {
 }
 
 class _TurnOffButton extends StatelessWidget {
-  const _TurnOffButton({
-    Key? key,
-  }) : super(key: key);
+  const _TurnOffButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
