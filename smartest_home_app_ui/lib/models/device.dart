@@ -35,9 +35,7 @@ extension DeviceDetails on DeviceType {
         return '%';
       case DeviceType.ac:
         return '°C';
-      case DeviceType.wifi:
-        return null;
-      case DeviceType.smartTV:
+      default:
         return null;
     }
   }

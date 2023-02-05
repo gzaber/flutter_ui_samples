@@ -28,7 +28,7 @@ class LightPage extends StatelessWidget {
         title: device.deviceType.name,
         height: 0.1 * size.height,
         leadingIcon: Icons.arrow_back,
-        leadingOnPressed: () => Navigator.pop(context),
+        leadingOnPressed: () => Navigator.pop<void>(context),
       ),
       extendBodyBehindAppBar: true,
       body: Stack(
@@ -36,50 +36,74 @@ class LightPage extends StatelessWidget {
           Positioned(
             right: -size.height * 0.15,
             child: Image.network(
-              'https://cdn.pixabay.com/photo/2022/07/18/17/44/lamp-7330478_960_720.png',
+              lightBackgroundUrl,
               height: size.height * 0.45,
               fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) {
+                return SizedBox(
+                  key: const Key('lightPageBackgroundErorrKey'),
+                  width: size.width,
+                  height: size.height * 0.45,
+                  child: const Icon(Icons.error),
+                );
+              },
             ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 0.136 * size.height,
-                      width: size.width,
-                    ),
-                    const _Header(title: 'Power'),
-                    const SizedBox(height: 17),
-                    _CustomSwitch(turnedOn: device.turnedOn),
-                    const SizedBox(height: 65),
-                    _LightValue(device: device),
-                    const SizedBox(height: 97),
-                    const _Header(title: 'Intensity'),
-                    const SizedBox(height: 10),
-                    _CustomSlider(size: size),
-                  ],
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 0.136 * size.height,
+                        width: size.width,
+                      ),
+                      const _Header(title: 'Power'),
+                      const SizedBox(height: 17),
+                      _CustomSwitch(
+                        key: const Key('lightPageCustomSwitchKey'),
+                        turnedOn: device.turnedOn,
+                      ),
+                      const SizedBox(height: 65),
+                      _LightValue(device: device),
+                      const SizedBox(height: 97),
+                      const _Header(title: 'Intensity'),
+                      const SizedBox(height: 10),
+                      _CustomSlider(size: size),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 65),
-              CustomExpandedContainer(
-                color: AppColors.lightGrey,
-                child: Column(
-                  children: const [
-                    CustomHeader(title: 'Schedule', paddingBottom: 0),
-                    _Schedule(),
-                    CustomExpandedContainer(
-                      color: Colors.white,
-                      child: _PowerUsage(),
-                    ),
-                  ],
+                const SizedBox(height: 65),
+                UpperRoundedContainer(
+                  aboveCornersColor: AppColors.brownBackground,
+                  color: AppColors.lightGrey,
+                  child: Column(
+                    children: [
+                      const CustomHeader(
+                        title: 'Schedule',
+                        paddingBottom: 0,
+                        buttonKey: Key('lightPageScheduleHeaderButtonKey'),
+                      ),
+                      const _Schedule(),
+                      UpperRoundedContainer(
+                        aboveCornersColor: AppColors.lightGrey,
+                        color: Colors.white,
+                        child: Column(
+                          children: const [
+                            _PowerUsage(),
+                            SizedBox(height: 50),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
@@ -91,7 +115,7 @@ class _Header extends StatelessWidget {
   const _Header({
     Key? key,
     required this.title,
-  }) : super(key: key);
+  }) : super(key: key); // coverage:ignore-line
 
   final String title;
 
@@ -269,9 +293,7 @@ class _CustomSlider extends StatelessWidget {
 }
 
 class _Schedule extends StatelessWidget {
-  const _Schedule({
-    Key? key,
-  }) : super(key: key);
+  const _Schedule({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -305,7 +327,7 @@ class _ScheduleHours extends StatelessWidget {
     required this.preposition,
     required this.hour,
     required this.timeOfDay,
-  }) : super(key: key);
+  }) : super(key: key); // coverage:ignore-line
 
   final String preposition;
   final String hour;
@@ -336,7 +358,7 @@ class _CustomIconButton extends StatelessWidget {
   const _CustomIconButton({
     Key? key,
     required this.icon,
-  }) : super(key: key);
+  }) : super(key: key); // coverage:ignore-line
 
   final IconData icon;
 
@@ -362,9 +384,7 @@ class _CustomIconButton extends StatelessWidget {
 }
 
 class _PowerUsage extends StatelessWidget {
-  const _PowerUsage({
-    Key? key,
-  }) : super(key: key);
+  const _PowerUsage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -398,7 +418,7 @@ class _StatsRow extends StatelessWidget {
     required this.description,
     required this.value,
     this.unit,
-  }) : super(key: key);
+  }) : super(key: key); // coverage:ignore-line
 
   final String description;
   final String value;

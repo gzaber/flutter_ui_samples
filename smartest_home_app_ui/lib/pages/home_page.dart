@@ -21,38 +21,44 @@ class HomePage extends StatelessWidget {
         leadingIcon: Icons.menu,
         trailingIcon: Icons.notifications_outlined,
       ),
-      body: Column(
-        children: [
-          const _EnvironmentalConditions(),
-          CustomExpandedContainer(
-            color: Colors.white,
-            child: Column(
-              children: [
-                const _PowerUsage(),
-                CustomExpandedContainer(
-                  color: AppColors.lightGrey,
-                  child: Column(
-                    children: [
-                      const CustomHeader(title: 'Scenes'),
-                      const _Scenes(scenes: scenes),
-                      const CustomHeader(title: 'Rooms', paddingTop: 0),
-                      _Rooms(rooms: rooms),
-                    ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const _EnvironmentalConditions(),
+            UpperRoundedContainer(
+              aboveCornersColor: AppColors.brownBackground,
+              color: Colors.white,
+              child: Column(
+                children: [
+                  const _PowerUsage(),
+                  UpperRoundedContainer(
+                    aboveCornersColor: Colors.white,
+                    color: AppColors.lightGrey,
+                    child: Column(
+                      children: [
+                        const CustomHeader(
+                          title: 'Scenes',
+                          buttonKey: Key('homePageSceneHeaderButtonKey'),
+                        ),
+                        const _Scenes(scenes: scenes),
+                        const CustomHeader(title: 'Rooms', paddingTop: 0),
+                        _Rooms(rooms: rooms),
+                        const SizedBox(height: 60),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
 class _EnvironmentalConditions extends StatelessWidget {
-  const _EnvironmentalConditions({
-    Key? key,
-  }) : super(key: key);
+  const _EnvironmentalConditions({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +83,7 @@ class _WeatherCondition extends StatelessWidget {
     Key? key,
     required this.description,
     required this.icon,
-  }) : super(key: key);
+  }) : super(key: key); // coverage:ignore-line
 
   final String description;
   final IconData icon;
@@ -106,7 +112,7 @@ class _TemperatureCondition extends StatelessWidget {
     Key? key,
     required this.description,
     required this.value,
-  }) : super(key: key);
+  }) : super(key: key); // coverage:ignore-line
 
   final String description;
   final int value;
@@ -139,9 +145,7 @@ class _TemperatureCondition extends StatelessWidget {
 }
 
 class _PowerUsage extends StatelessWidget {
-  const _PowerUsage({
-    Key? key,
-  }) : super(key: key);
+  const _PowerUsage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +180,7 @@ class _PowerUsageItem extends StatelessWidget {
     required this.icon,
     required this.value,
     required this.description,
-  }) : super(key: key);
+  }) : super(key: key); // coverage:ignore-line
 
   final IconData icon;
   final double value;
@@ -230,7 +234,7 @@ class _Scenes extends StatefulWidget {
   const _Scenes({
     Key? key,
     required this.scenes,
-  }) : super(key: key);
+  }) : super(key: key); // coverage:ignore-line
 
   final List<Scene> scenes;
 
@@ -251,6 +255,7 @@ class _ScenesState extends State<_Scenes> {
           padding: const EdgeInsets.only(left: 25),
           itemBuilder: (_, index) {
             return _SceneItem(
+              key: Key('homePageSceneItemKey$index'),
               scene: widget.scenes[index],
               isActive: index == activeIndex,
               onTap: () {
@@ -342,7 +347,10 @@ class _Rooms extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.only(left: 25),
         itemBuilder: (_, index) {
-          return _RoomItem(room: rooms[index]);
+          return _RoomItem(
+            key: Key('homePageRoomItemKey$index'),
+            room: rooms[index],
+          );
         },
       ),
     );
@@ -365,7 +373,8 @@ class _RoomItem extends StatelessWidget {
         color: Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(20)),
         child: InkWell(
-          onTap: () => Navigator.push(context, RoomPage.route(room: room)),
+          onTap: () =>
+              Navigator.push<void>(context, RoomPage.route(room: room)),
           borderRadius: const BorderRadius.all(Radius.circular(20)),
           child: Container(
             width: 187,
@@ -380,6 +389,13 @@ class _RoomItem extends StatelessWidget {
                   room.imageUrl,
                   height: 135,
                   fit: BoxFit.scaleDown,
+                  errorBuilder: (_, __, ___) {
+                    return SizedBox(
+                      key: Key('homePageRoomItemErorrKey${room.imageUrl}'),
+                      height: 135,
+                      child: const Icon(Icons.error),
+                    );
+                  },
                 ),
                 const SizedBox(height: 5),
                 Text(

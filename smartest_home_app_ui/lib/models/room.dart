@@ -14,6 +14,9 @@ class Room {
   final List<Measurement> measurements;
 }
 
+String lightBackgroundUrl =
+    'https://cdn.pixabay.com/photo/2022/07/18/17/44/lamp-7330478_960_720.png';
+
 List<Room> roomsList = [
   Room(
     name: 'Living Room',
