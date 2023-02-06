@@ -26,32 +26,34 @@ class CoffeePage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              _CoffeeImage(size: size, coffee: coffee),
-              CustomAppBar(
-                width: size.width,
-                isTransparent: true,
-                leading: CustomAppBarButton(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                _CoffeeImage(size: size, coffee: coffee),
+                CustomAppBar(
+                  width: size.width,
                   isTransparent: true,
-                  icon: Icons.arrow_back,
-                  onTap: () => Navigator.pop(context),
+                  leading: CustomAppBarButton(
+                    isTransparent: true,
+                    icon: Icons.arrow_back,
+                    onTap: () => Navigator.pop<void>(context),
+                  ),
+                  trailing: const _FavoriteButton(),
                 ),
-                trailing: const _FavoriteButton(),
-              ),
-              Positioned(
-                bottom: 0,
-                child: _CoffeeDetails(size: size, coffee: coffee),
-              )
-            ],
-          ),
-          _Description(coffee: coffee),
-          const _Size(),
-          _BuyNow(coffee: coffee),
-        ],
+                Positioned(
+                  bottom: 0,
+                  child: _CoffeeDetails(size: size, coffee: coffee),
+                )
+              ],
+            ),
+            _Description(coffee: coffee),
+            const _Size(),
+            _BuyNow(coffee: coffee),
+          ],
+        ),
       ),
     );
   }
@@ -94,15 +96,23 @@ class _CoffeeImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: size.width - 30,
-      height: 0.57 * size.height,
-      margin: const EdgeInsets.only(left: 15, top: 15, right: 15),
-      decoration: BoxDecoration(
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, top: 15, right: 15),
+      child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(30)),
-        image: DecorationImage(
-          image: NetworkImage(coffee.imageUrl),
+        child: Image.network(
+          coffee.imageUrl,
+          width: size.width - 30,
+          height: 456,
           fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) {
+            return SizedBox(
+              key: const Key('coffeePageCoffeeImageErrorKey'),
+              width: size.width - 30,
+              height: 456,
+              child: const Icon(Icons.error_outline, color: Colors.white),
+            );
+          },
         ),
       ),
     );
@@ -129,8 +139,7 @@ class _CoffeeDetails extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
           child: Container(
             width: size.width - 30,
-            height: 0.17 * size.height,
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
+            height: 138,
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.4),
               borderRadius: const BorderRadius.all(Radius.circular(25)),
@@ -138,49 +147,56 @@ class _CoffeeDetails extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          coffee.type.name,
-                          style: AppTextStyles.coffeeDetailsName,
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          'With ${coffee.mainAddition}',
-                          style: AppTextStyles.coffeeDetailsAddition,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          size: 20,
-                          color: AppColors.orange,
-                        ),
-                        const SizedBox(width: 8),
-                        RichText(
-                          text: TextSpan(
-                            text: '${coffee.rating} ',
-                            style: AppTextStyles.coffeeRating,
-                            children: [
-                              TextSpan(
-                                text: '(${coffee.reviewers})',
-                                style: AppTextStyles.coffeeReviewers,
-                              ),
-                            ],
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            coffee.type.name,
+                            style: AppTextStyles.coffeeDetailsName,
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          const SizedBox(height: 5),
+                          Text(
+                            'With ${coffee.mainAddition}',
+                            style: AppTextStyles.coffeeDetailsAddition,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            size: 20,
+                            color: AppColors.orange,
+                          ),
+                          const SizedBox(width: 8),
+                          RichText(
+                            text: TextSpan(
+                              text: '${coffee.rating} ',
+                              style: AppTextStyles.coffeeRating,
+                              children: [
+                                TextSpan(
+                                  text: '(${coffee.reviewers})',
+                                  style: AppTextStyles.coffeeReviewers,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                _BaseIngredients(coffee: coffee),
+                Padding(
+                  padding: const EdgeInsets.only(top: 25, right: 30),
+                  child: _BaseIngredients(coffee: coffee),
+                ),
               ],
             ),
           ),
@@ -308,10 +324,7 @@ class _Description extends StatelessWidget {
 }
 
 class _TitleText extends StatelessWidget {
-  const _TitleText({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
+  const _TitleText({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -348,6 +361,8 @@ class _SizeState extends State<_Size> {
             children: List.generate(
               CoffeeSize.values.length,
               (index) => _SizeItem(
+                key: Key(
+                    'coffeePageSizeItemKey${CoffeeSize.values[index].name[0].toUpperCase()}'),
                 title: CoffeeSize.values[index].name[0].toUpperCase(),
                 isActive: activeIndex == index,
                 onTap: () {
@@ -445,6 +460,7 @@ class _BuyNow extends StatelessWidget {
             color: AppColors.orange,
             borderRadius: BorderRadius.circular(20),
             child: InkWell(
+              key: const Key('coffeePageBuyNowButtonKey'),
               onTap: () {},
               borderRadius: BorderRadius.circular(20),
               child: const SizedBox(
