@@ -36,7 +36,7 @@ class LightPage extends StatelessWidget {
           Positioned(
             right: -size.height * 0.15,
             child: Image.network(
-              lightBackgroundUrl,
+              'https://cdn.pixabay.com/photo/2022/07/18/17/44/lamp-7330478_960_720.png',
               height: size.height * 0.45,
               fit: BoxFit.cover,
               errorBuilder: (_, __, ___) {

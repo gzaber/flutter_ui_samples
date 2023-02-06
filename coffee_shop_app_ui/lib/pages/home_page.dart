@@ -18,6 +18,7 @@ class HomePage extends StatelessWidget {
       body: Stack(
         children: [
           SingleChildScrollView(
+            key: const Key('homePageSingleChildScrollViewKey'),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -27,7 +28,10 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 40),
                 _CoffeeTypes(width: size.width),
                 const SizedBox(height: 18),
-                _Coffees(width: size.width, coffees: coffees),
+                _Coffees(
+                  width: size.width,
+                  coffees: coffees,
+                ),
                 const _SpecialHeader(),
                 _Specials(width: size.width),
                 const SizedBox(height: 100),
@@ -38,10 +42,12 @@ class HomePage extends StatelessWidget {
             child: CustomAppBar(
               width: size.width,
               leading: CustomAppBarButton(
+                key: const Key('homePageMenuButtonKey'),
                 icon: Icons.apps,
                 onTap: () {},
               ),
               trailing: CustomImageButton(
+                key: const Key('homePageProfileButtonKey'),
                 imageUrl:
                     'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
                 onTap: () {},
@@ -59,9 +65,7 @@ class HomePage extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({
-    Key? key,
-  }) : super(key: key);
+  const _Header({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +136,7 @@ class _CoffeeTypesState extends State<_CoffeeTypes> {
             itemCount: CoffeeType.values.length,
             itemBuilder: (context, index) {
               return _CoffeeTypeItem(
+                key: Key('homePageCoffeeTypeItemKey$index'),
                 coffeeType: CoffeeType.values[index],
                 isActive: index == activeIndex,
                 onTap: () {
@@ -219,7 +224,10 @@ class _Coffees extends StatelessWidget {
         padding: const EdgeInsets.only(left: 25),
         itemCount: coffees.length,
         itemBuilder: (context, index) {
-          return _CoffeeItem(coffee: coffees[index]);
+          return _CoffeeItem(
+            coffee: coffees[index],
+            key: Key('homePageCoffeeItemKey$index'),
+          );
         },
       ),
     );
@@ -237,7 +245,8 @@ class _CoffeeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, CoffeePage.route(coffee: coffee)),
+      onTap: () =>
+          Navigator.push<void>(context, CoffeePage.route(coffee: coffee)),
       child: Container(
         width: 150,
         height: 230,
@@ -290,19 +299,22 @@ class _CoffeeItemImage extends StatelessWidget {
                   borderRadius:
                       const BorderRadius.only(bottomLeft: Radius.circular(15)),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.star,
-                      color: AppColors.orange,
-                      size: 13,
-                    ),
-                    Text(
-                      ' ${coffee.rating}',
-                      style: AppTextStyles.homeRating,
-                    ),
-                  ],
+                child: FittedBox(
+                  fit: BoxFit.none,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.star,
+                        color: AppColors.orange,
+                        size: 13,
+                      ),
+                      Text(
+                        ' ${coffee.rating}',
+                        style: AppTextStyles.homeRating,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -323,15 +335,21 @@ class _ImageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 130,
-      height: 130,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(15)),
-        image: DecorationImage(
-          image: NetworkImage(imageUrl),
-          fit: BoxFit.cover,
-        ),
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(15)),
+      child: Image.network(
+        imageUrl,
+        width: 130,
+        height: 130,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) {
+          return SizedBox(
+            key: Key('homePageImageContainerErrorKey$imageUrl'),
+            width: 130,
+            height: 130,
+            child: const Icon(Icons.error_outline, color: Colors.white),
+          );
+        },
       ),
     );
   }
@@ -349,64 +367,66 @@ class _CoffeeItemDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            coffee.type.name,
-            style: AppTextStyles.homeCoffeeItemName,
-          ),
-          const SizedBox(height: 3),
-          Text(
-            'With ${coffee.mainAddition}',
-            style: AppTextStyles.homeCoffeeItemAddition,
-          ),
-          const SizedBox(height: 7),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              RichText(
-                text: TextSpan(
-                  text: '\$',
-                  style: AppTextStyles.homeCoffeeItemDollarSign,
-                  children: [
-                    TextSpan(
-                      text:
-                          ' ${coffee.price.toStringAsFixed(coffee.price.truncateToDouble() == coffee.price ? 0 : 2)}',
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ],
+      child: FittedBox(
+        fit: BoxFit.none,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              coffee.type.name,
+              style: AppTextStyles.homeCoffeeItemName,
+            ),
+            const SizedBox(height: 3),
+            Text(
+              'With ${coffee.mainAddition}',
+              style: AppTextStyles.homeCoffeeItemAddition,
+            ),
+            const SizedBox(height: 7),
+            Row(
+              children: [
+                RichText(
+                  text: TextSpan(
+                    text: '\$',
+                    style: AppTextStyles.homeCoffeeItemDollarSign,
+                    children: [
+                      TextSpan(
+                        text:
+                            ' ${coffee.price.toStringAsFixed(coffee.price.truncateToDouble() == coffee.price ? 0 : 2)}',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Material(
-                color: AppColors.orange,
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                child: InkWell(
-                  onTap: () {},
+                const SizedBox(width: 39),
+                Material(
+                  color: AppColors.orange,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: const SizedBox(
-                    width: 28,
-                    height: 28,
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 15,
+                  child: InkWell(
+                    key: Key('homePageAddCoffeeButtonKey${coffee.imageUrl}'),
+                    onTap: () {},
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: const SizedBox(
+                      width: 28,
+                      height: 28,
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 15,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
 class _SpecialHeader extends StatelessWidget {
-  const _SpecialHeader({
-    Key? key,
-  }) : super(key: key);
+  const _SpecialHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -537,6 +557,7 @@ class _CustomNavBarState extends State<_CustomNavBar> {
             children: List.generate(
               icons.length,
               (index) => GestureDetector(
+                key: Key('homePageCustomNavBarItemKey$index'),
                 onTap: () {
                   setState(() {
                     activeIndex = index;
