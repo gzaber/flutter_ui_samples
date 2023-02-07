@@ -26,15 +26,7 @@ extension CoffeeDetails on CoffeeType {
     switch (this) {
       case CoffeeType.cappuccino:
         return 'A cappuccino is a coffee-based drink made primarily from espresso and milk';
-      case CoffeeType.espresso:
-        return '';
-      case CoffeeType.latte:
-        return '';
-      case CoffeeType.flatWhite:
-        return '';
-      case CoffeeType.americano:
-        return '';
-      case CoffeeType.macchiato:
+      default:
         return '';
     }
   }
@@ -46,16 +38,8 @@ extension CoffeeDetails on CoffeeType {
           Ingredient(name: 'Coffee', icon: Icons.coffee),
           Ingredient(name: 'Milk', icon: Icons.water_drop),
         ];
-      case CoffeeType.espresso:
-        return [];
-      case CoffeeType.latte:
-        return [];
-      case CoffeeType.flatWhite:
-        return [];
-      case CoffeeType.americano:
-        return [];
-      case CoffeeType.macchiato:
-        return [];
+      default:
+        return const [];
     }
   }
 
@@ -63,16 +47,8 @@ extension CoffeeDetails on CoffeeType {
     switch (this) {
       case CoffeeType.cappuccino:
         return true;
-      case CoffeeType.espresso:
+      default:
         return false;
-      case CoffeeType.latte:
-        return true;
-      case CoffeeType.flatWhite:
-        return false;
-      case CoffeeType.americano:
-        return true;
-      case CoffeeType.macchiato:
-        return true;
     }
   }
 }

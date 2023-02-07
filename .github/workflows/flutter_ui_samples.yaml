@@ -7,6 +7,9 @@ on:
       - "furniture_ecommerce_app_ui/**"
       - "lamp_shop_app_ui/**"
       - "smartest_home_app_ui/**"
+  push:
+    branches:
+      - master
 
 jobs:
   test_samples:
@@ -41,12 +44,14 @@ jobs:
         run: flutter test --coverage
 
       - name: Upload coverage to codecov
+        if: github.event_name == 'push'
         run: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
           ./codecov
 
   build_android:
+    if: github.event_name == 'pull_request'
     needs: [test_samples]
     strategy:
       matrix:
@@ -74,6 +79,7 @@ jobs:
         run: flutter build apk
 
   build_ios:
+    if: github.event_name == 'pull_request'
     needs: [test_samples]
     strategy:
       matrix:
