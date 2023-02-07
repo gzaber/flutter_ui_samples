@@ -18,7 +18,6 @@ class HomePage extends StatelessWidget {
       body: Stack(
         children: [
           SingleChildScrollView(
-            key: const Key('homePageSingleChildScrollViewKey'),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -398,14 +397,13 @@ class _CoffeeItemDetails extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 39),
-                Material(
+                const Material(
                   color: AppColors.orange,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                   child: InkWell(
-                    key: Key('homePageAddCoffeeButtonKey${coffee.imageUrl}'),
-                    onTap: () {},
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    child: const SizedBox(
+                    onTap: null,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: SizedBox(
                       width: 28,
                       height: 28,
                       child: Icon(
