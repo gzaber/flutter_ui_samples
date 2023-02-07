@@ -1,4 +1,10 @@
+<a href="https://github.com/gzaber/flutter_ui_samples/actions"><img src="https://img.shields.io/github/actions/workflow/status/gzaber/flutter_ui_samples/flutter_ui_samples.yaml" alt="build"></a>
+<a href="https://codecov.io/gh/gzaber/flutter_ui_samples"><img src="https://codecov.io/gh/gzaber/flutter_ui_samples/branch/master/graph/badge.svg" alt="codecov"></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/gzaber/flutter_ui_samples" alt="license MIT"></a>
+
 # flutter_ui_samples
+
+UI examples built with Flutter.
 
 <table style="padding:10px">
     <tr>
