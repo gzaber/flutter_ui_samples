@@ -8,22 +8,29 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       backgroundColor: AppColors.black,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const _CustomAppBar(),
-              _HorizontalLine(width: width),
-              const _YourNotes(),
-              const _CategoryList(),
-              _HorizontalLine(width: width),
-              _NoteList(width: width),
-            ],
-          ),
+        child: Column(
+          children: [
+            const _CustomAppBar(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: const [
+                    _HorizontalLine(color: AppColors.grey),
+                    SizedBox(height: 20),
+                    _YourNotes(),
+                    SizedBox(height: 40),
+                    _CategoryList(),
+                    SizedBox(height: 40),
+                    _HorizontalLine(color: AppColors.white),
+                    _NoteList(),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -36,7 +43,7 @@ class _CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 15, left: 30, right: 25, bottom: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -71,6 +78,8 @@ class _CustomAppBar extends StatelessWidget {
               color: Colors.white,
             ),
             splashRadius: 20,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
           )
         ],
       ),
@@ -80,17 +89,17 @@ class _CustomAppBar extends StatelessWidget {
 
 class _HorizontalLine extends StatelessWidget {
   const _HorizontalLine({
-    required this.width,
-  });
+    Key? key,
+    required this.color,
+  }) : super(key: key);
 
-  final double width;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width - 60,
-      height: 1.5,
-      color: AppColors.grey,
+      height: 1,
+      color: color,
       margin: const EdgeInsets.symmetric(horizontal: 30),
     );
   }
@@ -102,7 +111,7 @@ class _YourNotes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -132,9 +141,8 @@ class _CategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 45,
-      margin: const EdgeInsets.only(bottom: 30),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.only(left: 30),
@@ -177,21 +185,18 @@ class _CategoryItem extends StatelessWidget {
 }
 
 class _NoteList extends StatelessWidget {
-  const _NoteList({
-    Key? key,
-    required this.width,
-  }) : super(key: key);
-
-  final double width;
+  const _NoteList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: notes.length,
       itemBuilder: (context, index) =>
           _NoteItem(index: index, note: notes[index]),
-      separatorBuilder: (context, index) => _HorizontalLine(width: width),
+      separatorBuilder: (context, index) =>
+          const _HorizontalLine(color: AppColors.white),
     );
   }
 }
@@ -209,7 +214,7 @@ class _NoteItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, left: 30, right: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -227,7 +232,7 @@ class _NoteItem extends StatelessWidget {
               children: [
                 Text(
                   note.title,
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
@@ -236,10 +241,12 @@ class _NoteItem extends StatelessWidget {
                 ),
                 Text(
                   note.content,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge!
-                      .copyWith(color: AppColors.grey),
+                      .copyWith(color: AppColors.grey, height: 1.5),
                 ),
               ],
             ),
@@ -251,6 +258,8 @@ class _NoteItem extends StatelessWidget {
             iconSize: 15,
             color: AppColors.white,
             splashRadius: 20,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
           ),
         ],
       ),
