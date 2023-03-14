@@ -66,4 +66,60 @@ final notes = [
     category: Category(name: 'work'),
     date: DateTime.parse("20221202"),
   ),
+  Note(
+    title: 'eget mauris',
+    content:
+        'feugiat vivamus at augue eget arcu dictum varius duis at consectetur lorem donec massa sapien faucibus et molestie ac feugiat',
+    category: Category(name: 'home'),
+    date: DateTime.parse("20221202"),
+  ),
+  Note(
+    title: 'sollicitudin aliquam',
+    content:
+        'fermentum odio eu feugiat pretium nibh ipsum consequat nisl vel pretium lectus quam id leo in vitae turpis massa sed',
+    category: Category(name: 'home'),
+    date: DateTime.parse("20221202"),
+  ),
+  Note(
+    title: 'dignissim convallis',
+    content:
+        'consectetur adipiscing elit ut aliquam purus sit amet luctus venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non enim',
+    category: Category(name: 'study'),
+    date: DateTime.parse("20221202"),
+  ),
+  Note(
+    title: 'lectus arcu',
+    content:
+        'sem integer vitae justo eget magna fermentum iaculis eu non diam phasellus vestibulum lorem sed risus ultricies tristique nulla aliquet',
+    category: Category(name: 'study'),
+    date: DateTime.parse("20221202"),
+  ),
+  Note(
+    title: 'et odio',
+    content:
+        'mi proin sed libero enim sed faucibus turpis in eu mi bibendum neque egestas congue quisque egestas diam in arcu',
+    category: Category(name: 'books'),
+    date: DateTime.parse("20221202"),
+  ),
+  Note(
+    title: 'turpis egestas',
+    content:
+        'varius sit amet mattis vulputate enim nulla aliquet porttitor lacus luctus accumsan tortor posuere ac ut consequat semper viverra nam',
+    category: Category(name: 'books'),
+    date: DateTime.parse("20221202"),
+  ),
+  Note(
+    title: 'non blandit',
+    content:
+        'pellentesque sit amet porttitor eget dolor morbi non arcu risus quis varius quam quisque id diam vel quam elementum pulvinar',
+    category: Category(name: 'articles'),
+    date: DateTime.parse("20221202"),
+  ),
+  Note(
+    title: 'semper risus',
+    content:
+        'scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas maecenas pharetra convallis',
+    category: Category(name: 'lists'),
+    date: DateTime.parse("20221202"),
+  ),
 ];
