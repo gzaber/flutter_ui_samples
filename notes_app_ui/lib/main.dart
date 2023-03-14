@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'pages/home_page.dart';
+import 'providers/providers.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +19,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'NeueMontreal',
       ),
-      home: const HomePage(),
+      home: ChangeNotifierProvider(
+        create: (context) => CategoryProvider(),
+        child: const HomePage(),
+      ),
     );
   }
 }

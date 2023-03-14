@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../config/config.dart';
 import '../models/models.dart';
+import '../providers/providers.dart';
+import 'pages.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -124,7 +127,7 @@ class _YourNotes extends StatelessWidget {
                 .copyWith(color: AppColors.white, fontSize: 66),
           ),
           Text(
-            '/14',
+            '/${notes.length}',
             style: Theme.of(context)
                 .textTheme
                 .displaySmall!
@@ -164,20 +167,35 @@ class _CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      margin: const EdgeInsets.only(right: 15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        border: Border.all(color: AppColors.white),
-      ),
-      child: Center(
-        child: Text(
-          '#${category.name}',
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: AppColors.white, fontWeight: FontWeight.normal),
+    final categoryName = context
+        .select<CategoryProvider, String>((category) => category.categoryName);
+
+    return GestureDetector(
+      onTap: () {
+        Provider.of<CategoryProvider>(context, listen: false).update(category);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        margin: const EdgeInsets.only(right: 15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: categoryName == category.name ? AppColors.orange : null,
+          border: Border.all(
+            color: categoryName == category.name
+                ? AppColors.orange
+                : AppColors.white,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            '#${category.name}',
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: categoryName == category.name
+                      ? AppColors.black
+                      : AppColors.white,
+                  fontWeight: FontWeight.normal,
+                ),
+          ),
         ),
       ),
     );
@@ -189,12 +207,23 @@ class _NoteList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final categoryName = context
+        .select<CategoryProvider, String>((category) => category.categoryName);
+
+    List<Note> currentNotes = [];
+    if (categoryName.isEmpty) {
+      currentNotes = notes;
+    } else {
+      currentNotes =
+          notes.where((note) => note.category.name == categoryName).toList();
+    }
+
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: notes.length,
+      itemCount: currentNotes.length,
       itemBuilder: (context, index) =>
-          _NoteItem(index: index, note: notes[index]),
+          _NoteItem(index: index, note: currentNotes[index]),
       separatorBuilder: (context, index) =>
           const _HorizontalLine(color: AppColors.white),
     );
@@ -213,56 +242,71 @@ class _NoteItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '0${index + 1} /',
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge!
-                .copyWith(color: AppColors.grey),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  note.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium!
-                      .copyWith(color: AppColors.white),
-                ),
-                Text(
-                  note.content,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(color: AppColors.grey, height: 1.5),
-                ),
-              ],
+    return GestureDetector(
+      onTap: () => Navigator.push(context, NotePage.route(note: note)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '0${index + 1} /',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(color: AppColors.grey),
             ),
-          ),
-          const SizedBox(width: 10),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.north_east),
-            iconSize: 15,
-            color: AppColors.white,
-            splashRadius: 20,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-          ),
-        ],
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    note.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium!
+                        .copyWith(color: AppColors.white),
+                  ),
+                  Text(
+                    _getNoteContent(note),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: AppColors.grey, height: 1.5),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 10),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.north_east),
+              iconSize: 15,
+              color: AppColors.white,
+              splashRadius: 20,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
+
+String _getNoteContent(Note note) {
+  if (note.content.isNotEmpty) return note.content;
+  if (note.todos.isNotEmpty) {
+    String content = '';
+    for (var todo in note.todos) {
+      content += '•  ${todo.description}\n';
+    }
+    return content;
+  }
+  return '';
 }
