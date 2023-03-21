@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../config/config.dart';
 import '../models/models.dart';
 import '../providers/providers.dart';
+import '../widgets/widgets.dart';
 import 'pages.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,13 +22,10 @@ class HomePage extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: const [
-                    _HorizontalLine(color: AppColors.grey),
-                    SizedBox(height: 20),
+                    HorizontalLine(color: AppColors.grey),
                     _YourNotes(),
-                    SizedBox(height: 40),
                     _CategoryList(),
-                    SizedBox(height: 40),
-                    _HorizontalLine(color: AppColors.white),
+                    HorizontalLine(color: AppColors.white),
                     _NoteList(),
                   ],
                 ),
@@ -46,7 +44,7 @@ class _CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -58,13 +56,10 @@ class _CustomAppBar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               RichText(
-                text: TextSpan(
+                text: const TextSpan(
                   text: 'morning, ',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(color: AppColors.grey),
-                  children: const [
+                  style: AppTextStyles.homeAppBar,
+                  children: [
                     TextSpan(
                       text: 'Justin',
                       style: TextStyle(color: AppColors.white),
@@ -78,7 +73,7 @@ class _CustomAppBar extends StatelessWidget {
             onPressed: () {},
             icon: const Icon(
               Icons.add,
-              color: Colors.white,
+              color: AppColors.white,
             ),
             splashRadius: 20,
             padding: EdgeInsets.zero,
@@ -90,48 +85,24 @@ class _CustomAppBar extends StatelessWidget {
   }
 }
 
-class _HorizontalLine extends StatelessWidget {
-  const _HorizontalLine({
-    Key? key,
-    required this.color,
-  }) : super(key: key);
-
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 1,
-      color: color,
-      margin: const EdgeInsets.symmetric(horizontal: 30),
-    );
-  }
-}
-
 class _YourNotes extends StatelessWidget {
   const _YourNotes();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.only(left: 25, top: 15, right: 25, bottom: 25),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(
+          const Text(
             'your\n   notes',
-            style: Theme.of(context)
-                .textTheme
-                .displayMedium!
-                .copyWith(color: AppColors.white, fontSize: 66),
+            style: AppTextStyles.homeYourNotesTitle,
           ),
           Text(
             '/${notes.length}',
-            style: Theme.of(context)
-                .textTheme
-                .displaySmall!
-                .copyWith(color: AppColors.grey),
+            style: AppTextStyles.homeYourNotesCount,
           ),
         ],
       ),
@@ -144,14 +115,17 @@ class _CategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 45,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.only(left: 30),
-        itemCount: categories.length,
-        itemBuilder: (context, index) =>
-            _CategoryItem(category: categories[index]),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30),
+      child: SizedBox(
+        height: 45,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.only(left: 30),
+          itemCount: categories.length,
+          itemBuilder: (context, index) =>
+              _CategoryItem(category: categories[index]),
+        ),
       ),
     );
   }
@@ -179,7 +153,9 @@ class _CategoryItem extends StatelessWidget {
         margin: const EdgeInsets.only(right: 15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
-          color: categoryName == category.name ? AppColors.orange : null,
+          color: categoryName == category.name
+              ? AppColors.orange
+              : AppColors.black,
           border: Border.all(
             color: categoryName == category.name
                 ? AppColors.orange
@@ -189,12 +165,11 @@ class _CategoryItem extends StatelessWidget {
         child: Center(
           child: Text(
             '#${category.name}',
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: categoryName == category.name
-                      ? AppColors.black
-                      : AppColors.white,
-                  fontWeight: FontWeight.normal,
-                ),
+            style: AppTextStyles.homeCategoryItem.copyWith(
+              color: categoryName == category.name
+                  ? AppColors.black
+                  : AppColors.white,
+            ),
           ),
         ),
       ),
@@ -225,7 +200,7 @@ class _NoteList extends StatelessWidget {
       itemBuilder: (context, index) =>
           _NoteItem(index: index, note: currentNotes[index]),
       separatorBuilder: (context, index) =>
-          const _HorizontalLine(color: AppColors.white),
+          const HorizontalLine(color: AppColors.white),
     );
   }
 }
@@ -251,12 +226,9 @@ class _NoteItem extends StatelessWidget {
           children: [
             Text(
               '0${index + 1} /',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(color: AppColors.grey),
+              style: AppTextStyles.homeNoteItemCount,
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 15),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -265,24 +237,20 @@ class _NoteItem extends StatelessWidget {
                     note.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineMedium!
-                        .copyWith(color: AppColors.white),
+                    style: AppTextStyles.homeNoteItemTitle,
                   ),
+                  const SizedBox(height: 10),
                   Text(
                     _getNoteContent(note),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: AppColors.grey, height: 1.5),
+                    style: AppTextStyles.homeNoteItemContent,
                   ),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 20),
             IconButton(
               onPressed: () {},
               icon: const Icon(Icons.north_east),
