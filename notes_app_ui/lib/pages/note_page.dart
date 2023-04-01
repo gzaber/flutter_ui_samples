@@ -61,19 +61,25 @@ class _CustomAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          IconButton(
-            onPressed: () => Navigator.pop<void>(context),
-            icon: const Icon(
-              Icons.arrow_back,
-              color: AppColors.black,
+          SlideComponent(
+            fromDirection: AxisDirection.left,
+            child: IconButton(
+              onPressed: () => Navigator.pop<void>(context),
+              icon: const Icon(
+                Icons.arrow_back,
+                color: AppColors.black,
+              ),
+              splashRadius: 20,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
             ),
-            splashRadius: 20,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
           ),
-          const Text(
-            'delete',
-            style: AppTextStyles.noteAppBar,
+          const SlideComponent(
+            fromDirection: AxisDirection.right,
+            child: Text(
+              'delete',
+              style: AppTextStyles.noteAppBar,
+            ),
           ),
         ],
       ),
@@ -95,8 +101,16 @@ class _Details extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(_formatDate(note.date), style: AppTextStyles.noteDetails),
-          Text('#${note.category.name}', style: AppTextStyles.noteDetails),
+          SlideComponent(
+            fromDirection: AxisDirection.left,
+            child:
+                Text(_formatDate(note.date), style: AppTextStyles.noteDetails),
+          ),
+          SlideComponent(
+            fromDirection: AxisDirection.right,
+            child: Text('#${note.category.name}',
+                style: AppTextStyles.noteDetails),
+          ),
         ],
       ),
     );
@@ -112,12 +126,19 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: TextField(
-        controller: TextEditingController(text: title),
-        decoration: const InputDecoration(border: InputBorder.none),
-        style: AppTextStyles.noteTitle,
+    return SlideComponent(
+      fromDirection: AxisDirection.down,
+      isFading: true,
+      offsetRatio: 0.5,
+      beginInterval: 0.7,
+      duration: const Duration(milliseconds: 1400),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: TextField(
+          controller: TextEditingController(text: title),
+          decoration: const InputDecoration(border: InputBorder.none),
+          style: AppTextStyles.noteTitle,
+        ),
       ),
     );
   }
@@ -132,13 +153,20 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: TextField(
-        controller: TextEditingController(text: content),
-        maxLines: null,
-        decoration: const InputDecoration(border: InputBorder.none),
-        style: AppTextStyles.noteContent,
+    return SlideComponent(
+      fromDirection: AxisDirection.down,
+      isFading: true,
+      offsetRatio: 0.3,
+      beginInterval: 0.7,
+      duration: const Duration(milliseconds: 1800),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: TextField(
+          controller: TextEditingController(text: content),
+          maxLines: null,
+          decoration: const InputDecoration(border: InputBorder.none),
+          style: AppTextStyles.noteContent,
+        ),
       ),
     );
   }
@@ -164,12 +192,26 @@ class _Todos extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 10),
-              const Text(
-                'don\'t forget /',
-                style: AppTextStyles.noteTodoHeader,
+              const SlideComponent(
+                isFading: true,
+                fromDirection: AxisDirection.down,
+                beginInterval: 0.5,
+                child: Text(
+                  'don\'t forget /',
+                  style: AppTextStyles.noteTodoHeader,
+                ),
               ),
               const SizedBox(height: 10),
-              ...todos.map((todo) => _TodoItem(todo: todo)),
+              ...List.generate(
+                todos.length,
+                (index) => SlideComponent(
+                  isFading: true,
+                  duration: Duration(milliseconds: 1000 + (index + 1) * 100),
+                  beginInterval: 0.5,
+                  fromDirection: AxisDirection.down,
+                  child: _TodoItem(todo: todos[index]),
+                ),
+              ),
               const SizedBox(height: 20),
             ],
           ),
