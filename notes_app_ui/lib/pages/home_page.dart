@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../config/config.dart';
 import '../models/models.dart';
-import '../providers/providers.dart';
+import '../notifiers/notifiers.dart';
 import '../widgets/widgets.dart';
 import 'pages.dart';
 
@@ -84,6 +84,7 @@ class _CustomAppBar extends StatelessWidget {
                   SlideComponent(
                     fromDirection: AxisDirection.right,
                     child: IconButton(
+                      key: const Key('homePageAddButtonKey'),
                       onPressed: () {},
                       icon: const Icon(
                         Icons.add,
@@ -183,11 +184,11 @@ class _CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categoryName = context
-        .select<CategoryProvider, String>((category) => category.categoryName);
+        .select<CategoryNotifier, String>((category) => category.categoryName);
 
     return GestureDetector(
       onTap: () {
-        Provider.of<CategoryProvider>(context, listen: false).update(category);
+        Provider.of<CategoryNotifier>(context, listen: false).update(category);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -224,7 +225,7 @@ class _NoteList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categoryName = context
-        .select<CategoryProvider, String>((category) => category.categoryName);
+        .select<CategoryNotifier, String>((category) => category.categoryName);
 
     List<Note> currentNotes = [];
     if (categoryName.isEmpty) {

@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart' hide Category;
 
 import '../models/models.dart';
 
-class CategoryProvider extends ChangeNotifier {
+class CategoryNotifier extends ChangeNotifier {
   Category? _category;
 
   String get categoryName => _category != null ? _category!.name : '';
