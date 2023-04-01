@@ -6,9 +6,11 @@ class HorizontalLine extends StatefulWidget {
   const HorizontalLine({
     Key? key,
     required this.color,
+    this.duration = const Duration(seconds: 1),
   }) : super(key: key);
 
   final Color color;
+  final Duration duration;
 
   @override
   State<HorizontalLine> createState() => _HorizontalLineState();
@@ -35,7 +37,8 @@ class _HorizontalLineState extends State<HorizontalLine> {
         height: widget.color == AppColors.white ? 1 : 1.2,
         color: widget.color,
         margin: const EdgeInsets.symmetric(horizontal: 25),
-        duration: const Duration(seconds: 1),
+        duration: widget.duration,
+        curve: Curves.easeOut,
       ),
     );
   }
