@@ -165,7 +165,9 @@ class _CategoryList extends StatelessWidget {
           itemBuilder: (context, index) => SlideComponent(
             fromDirection: AxisDirection.right,
             offsetRatio: index + 1,
-            child: _CategoryItem(category: categories[index]),
+            child: _CategoryItem(
+                key: Key('homePageCategoryItemKey$index'),
+                category: categories[index]),
           ),
         ),
       ),
@@ -242,6 +244,7 @@ class _NoteList extends StatelessWidget {
       itemBuilder: (context, index) {
         if (categoryName.isEmpty) {
           return _NoteItem(
+            key: Key('homePageNoteItemKey$index'),
             index: index,
             note: currentNotes[index],
             filtered: false,
@@ -251,6 +254,7 @@ class _NoteList extends StatelessWidget {
             fromDirection: AxisDirection.right,
             duration: Duration(milliseconds: 600 + (index + 1) * 200),
             child: _NoteItem(
+              key: Key('homePageNoteItemKey$index'),
               index: index,
               note: currentNotes[index],
               filtered: true,
@@ -283,7 +287,7 @@ class _NoteItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, NotePage.route(note: note)),
+      onTap: () => Navigator.push<void>(context, NotePage.route(note: note)),
       child: Padding(
         padding:
             const EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 25),
