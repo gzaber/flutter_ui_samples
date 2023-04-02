@@ -209,7 +209,10 @@ class _Todos extends StatelessWidget {
                   duration: Duration(milliseconds: 1000 + (index + 1) * 100),
                   beginInterval: 0.5,
                   fromDirection: AxisDirection.down,
-                  child: _TodoItem(todo: todos[index]),
+                  child: _TodoItem(
+                    key: Key('notePageTodoItemKey$index'),
+                    todo: todos[index],
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -270,13 +273,17 @@ class _TodoItemState extends State<_TodoItem> {
                     )
                   : null,
             ),
-            Text(
-              widget.todo.description,
-              style: AppTextStyles.noteTodoDescription.copyWith(
-                decoration: isChecked
-                    ? TextDecoration.lineThrough
-                    : TextDecoration.none,
-                color: isChecked ? AppColors.grey : AppColors.black,
+            Expanded(
+              child: Text(
+                widget.todo.description,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTextStyles.noteTodoDescription.copyWith(
+                  decoration: isChecked
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
+                  color: isChecked ? AppColors.grey : AppColors.black,
+                ),
               ),
             ),
           ],

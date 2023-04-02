@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../config/config.dart';
 import '../models/models.dart';
-import '../providers/providers.dart';
+import '../notifiers/notifiers.dart';
 import '../widgets/widgets.dart';
 import 'pages.dart';
 
@@ -84,6 +84,7 @@ class _CustomAppBar extends StatelessWidget {
                   SlideComponent(
                     fromDirection: AxisDirection.right,
                     child: IconButton(
+                      key: const Key('homePageAddButtonKey'),
                       onPressed: () {},
                       icon: const Icon(
                         Icons.add,
@@ -164,7 +165,9 @@ class _CategoryList extends StatelessWidget {
           itemBuilder: (context, index) => SlideComponent(
             fromDirection: AxisDirection.right,
             offsetRatio: index + 1,
-            child: _CategoryItem(category: categories[index]),
+            child: _CategoryItem(
+                key: Key('homePageCategoryItemKey$index'),
+                category: categories[index]),
           ),
         ),
       ),
@@ -183,11 +186,11 @@ class _CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categoryName = context
-        .select<CategoryProvider, String>((category) => category.categoryName);
+        .select<CategoryNotifier, String>((category) => category.categoryName);
 
     return GestureDetector(
       onTap: () {
-        Provider.of<CategoryProvider>(context, listen: false).update(category);
+        Provider.of<CategoryNotifier>(context, listen: false).update(category);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -224,7 +227,7 @@ class _NoteList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categoryName = context
-        .select<CategoryProvider, String>((category) => category.categoryName);
+        .select<CategoryNotifier, String>((category) => category.categoryName);
 
     List<Note> currentNotes = [];
     if (categoryName.isEmpty) {
@@ -241,6 +244,7 @@ class _NoteList extends StatelessWidget {
       itemBuilder: (context, index) {
         if (categoryName.isEmpty) {
           return _NoteItem(
+            key: Key('homePageNoteItemKey$index'),
             index: index,
             note: currentNotes[index],
             filtered: false,
@@ -250,6 +254,7 @@ class _NoteList extends StatelessWidget {
             fromDirection: AxisDirection.right,
             duration: Duration(milliseconds: 600 + (index + 1) * 200),
             child: _NoteItem(
+              key: Key('homePageNoteItemKey$index'),
               index: index,
               note: currentNotes[index],
               filtered: true,
@@ -282,7 +287,7 @@ class _NoteItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, NotePage.route(note: note)),
+      onTap: () => Navigator.push<void>(context, NotePage.route(note: note)),
       child: Padding(
         padding:
             const EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 25),

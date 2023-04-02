@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/home_page.dart';
-import 'providers/providers.dart';
+import 'notifiers/notifiers.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'NeueMontreal',
       ),
       home: ChangeNotifierProvider(
-        create: (context) => CategoryProvider(),
+        create: (context) => CategoryNotifier(),
         child: const HomePage(),
       ),
     );
